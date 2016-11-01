@@ -1,5 +1,0 @@
-C:\Work\MemberSite.ESport\MemberSite.ESport\bin\Debug\MemberSite.ESport.dll
-C:\Work\MemberSite.ESport\MemberSite.ESport\bin\Debug\MemberSite.ESport.pdb
-C:\Work\MemberSite.ESport\MemberSite.ESport\obj\Debug\MemberSite.ESport.csprojResolveAssemblyReference.cache
-C:\Work\MemberSite.ESport\MemberSite.ESport\obj\Debug\MemberSite.ESport.dll
-C:\Work\MemberSite.ESport\MemberSite.ESport\obj\Debug\MemberSite.ESport.pdb
