@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from "react-dom"
+import Categories from '../components/Categories'
 
 export default class Home extends React.Component {
 
@@ -16,6 +17,8 @@ export default class Home extends React.Component {
 		return(
 
 <div>
+	<Categories/>
+	<div style={{height:50}}></div>
 	{/*start-wrap*/}
 	{/*start-header*/}
 	<div className="header">
@@ -24,9 +27,9 @@ export default class Home extends React.Component {
 				<div className="top-header-left">
 					<ul>
 						<li><a className="cart" href="#"><span id="clickme"> </span></a></li>
-						//start-cart-bag
+						{/*start-cart-bag*/}
 						<div id="cart">Your Cart is Empty <span>(0)</span></div>
-						//start-cart-bag
+						{/*start-cart-bag*/}
 						<li><a className="info" href="#"><span> </span></a></li>
 					</ul>
 				</div>
@@ -68,6 +71,7 @@ export default class Home extends React.Component {
 		</div>
 		{/*End-mid-head*/}
 		{/*start-bottom-header*/}
+
 		<div className="header-bottom">
 			<div className="wrap">
 				{/* start header menu */}
