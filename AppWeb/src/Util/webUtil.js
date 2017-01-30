@@ -1,6 +1,6 @@
 import $ from "jquery"
 
-export function getServerData2(actionName, parameter, callBack) {
+export function getServerData(actionName, parameter, callBack) {
 
 	$.ajax({
 		url: actionName,

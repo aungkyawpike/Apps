@@ -1,7 +1,7 @@
 import dispatcher from "../dispatcher/dispatcher";
 
-export function BetClickUIAction(requestObj){
-    dispatcher.dispatch({type:"BET_CLICK", data: requestObj});
+export function getBusinessCategories(requestObj){
+    dispatcher.dispatch({type:"GET_BUSINESS_CATEGORIES", data: requestObj});
 }
 
 

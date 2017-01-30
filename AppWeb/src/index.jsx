@@ -4,6 +4,7 @@ import {Router, Route, IndexRoute, hashHistory} from "react-router"
 import Layout from "./components/Layout"
 import Home from "./components/Home"
 import injectTapEventPlugin from 'react-tap-event-plugin'
+
 injectTapEventPlugin()
 
 ReactDOM.render(
@@ -15,7 +16,7 @@ ReactDOM.render(
 			</Route>
 	</Router>
 	,
-	document.querySelector("#home")
+	document.querySelector("#container")
 
 )
 
