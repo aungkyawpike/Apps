@@ -22,6 +22,10 @@ export default class BusinessCategories extends React.Component {
 		BusinessCategoriesStore.removeListener('change', this.onChange);
 	}
 
+	componentWillReceiveProps(nextProps){
+		this.setState({ selectedBusiness : nextProps.selectedBusiness })
+	}
+
 	onChange = () => {
 		this.state = {
 			businessCategories: BusinessCategoriesStore.getBusinessCategories()
@@ -42,19 +46,9 @@ export default class BusinessCategories extends React.Component {
 
 	render() {
 
-		//let listItems = []
-		//this.state.businessCategories.forEach((category, i)=> {
-		//	let nestedItemsList = []
-		//	category.subCategories.forEach((subCategory, j)=> {
-		//		nestedItemsList.push(<ListItem style={{fontSize:13}}  key={subCategory.id} primaryText={subCategory.name}/>)
-		//	})
-		//	listItems.push(<ListItem style={{fontSize:13}} key={category.id} primaryText={category.name} primaryTogglesNestedList={true}
-		//													 nestedItems={nestedItemsList}/>)
-		//})
-
 		let listItems = []
 
-		this.recursiveProcess(this.state.businessCategories.product, listItems)
+		this.recursiveProcess(this.state.businessCategories[this.state.selectedBusiness], listItems)
 
 		return (
 			<Card>

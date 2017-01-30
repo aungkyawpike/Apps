@@ -6,35 +6,33 @@ import Filter from '../components/Filter'
 import BusinessCategories from '../components/BusinessCategories'
 import Search from '../components/Search'
 
-export default class CriterialPanel extends React.Component {
+export default class CriteriaPanel extends React.Component {
 
 	constructor(props) {
 		super(props)
+		this.currentPath = this.props.location.pathname.split('/')[2]
 		this.state = {
-			selectedBusiness: this.props.selectedBusiness
+			selectedBusiness: this.props.params.selectedBusiness
 		}
 	}
 
-	handleChangeSelectedBusiness = (selectedBusiness) => this.setState({selectedBusiness: selectedBusiness})
+	componentWillReceiveProps(nextProps){
+		if(this.currentPath !== nextProps.location.pathname.split('/')[2]){ //the route has changed
+			this.currentPath = nextProps.location.pathname.split('/')[2];
+			this.setState({ selectedBusiness : nextProps.params.selectedBusiness })
+		}
+	}
 
 	render() {
 
 		return (
-			<Tabs value={this.state.selectedBusiness} onChange={this.handleChangeSelectedBusiness} className="container-fluid" contentContainerStyle={{height:500}}>
-				<Tab icon={<ActionHome/>} title="Product" value="product">
-					<BusinessCategories/>
-					<Filter/>
-					<Search/>
-				</Tab>
-				<Tab icon={<ActionHome/>} title="Service" value="service">
-				</Tab>
-				<Tab icon={<ActionHome/>} title="Job" value="job">
-				</Tab>
-				<Tab icon={<ActionHome/>} title="Property" value="property">
-				</Tab>
-				<Tab icon={<ActionHome/>} title="Automobile"value="automobile">
-				</Tab>
-			</Tabs>
+			<div>
+				<BusinessCategories selectedBusiness={this.state.selectedBusiness}/>
+				<Filter selectedBusiness={this.state.selectedBusiness}/>
+				<Search/>
+				{this.props.children}
+			</div>
 		)
 	}
+
 }

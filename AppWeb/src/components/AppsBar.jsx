@@ -38,7 +38,7 @@ const Logged = (props) => (
 
 Logged.muiName = 'IconMenu';
 
-class Header extends React.Component {
+export default class AppsBar extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -63,4 +63,3 @@ class Header extends React.Component {
 	}
 }
 
-export default Header;
