@@ -30,7 +30,7 @@ export default class NestedList extends React.Component {
 		return (
 			<Card>
 				<CardHeader
-					title={this.props.nestedListData.selectedBusiness}
+					title={this.props.nestedListData.title}
 					actAsExpander={true}
 					showExpandableButton={true}
 					titleStyle={{fontSize:13}}

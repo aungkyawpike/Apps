@@ -1,17 +1,16 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import { Link } from 'react-router'
+import { Link, browserHistory  } from 'react-router'
 import CriteriaPanel from '../components/CriteriaPanel'
 
-export default class BusinessMenu extends React.Component {
+export default class PlatformsMenu extends React.Component {
 
 	constructor(props) {
-		super(props);
+		super(props)
+		browserHistory.push("#/criteriaPanel/product")
 	}
-
 
 	render() {
 		return (

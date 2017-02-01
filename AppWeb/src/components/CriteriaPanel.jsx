@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import Filter from '../components/Filter'
 import NestedList from '../components/NestedList'
 import Search from '../components/Search'
-import BusinessCategoriesStore from "../stores/BusinessCategoriesStore"
+import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
 
 export default class CriteriaPanel extends React.Component {
 
@@ -11,40 +11,40 @@ export default class CriteriaPanel extends React.Component {
 		super(props)
 		this.currentPath = this.props.location.pathname.split('/')[2]
 		this.state = {
-			businessCategories: BusinessCategoriesStore.getBusinessCategories(),
-			selectedBusiness: this.props.params.selectedBusiness
+			platformsCategories: PlatformsCategoriesStore.getPlatformsCategories(),
+			selectedPlatforms: this.props.params.selectedPlatforms
 		}
 		this.state.nestedListData = {
-			selectedBusiness: this.state.selectedBusiness,
+			title: this.state.selectedPlatforms,
 			selectedDataItem : '',
-			dataList : this.state.businessCategories[this.state.selectedBusiness],
+			dataList : this.state.platformsCategories[this.state.selectedPlatforms],
 			subDataListName : 'subCategories'
 		}
 	}
 
 	componentWillMount = () => {
-		BusinessCategoriesStore.on('change', this.onChange)
+		PlatformsCategoriesStore.on('change', this.onChange)
 	}
 
 	componentWillUnmount = () => {
-		BusinessCategoriesStore.removeListener('change', this.onChange);
+		PlatformsCategoriesStore.removeListener('change', this.onChange);
 	}
 
 	onChange = () => {
 		this.state = {
-			businessCategories: BusinessCategoriesStore.getBusinessCategories()
+			platformsCategories: PlatformsCategoriesStore.getPlatformsCategories()
 		}
 	}
 
 	componentWillReceiveProps(nextProps){
 		if(this.currentPath !== nextProps.location.pathname.split('/')[2]){ //the route has changed
 			this.currentPath = nextProps.location.pathname.split('/')[2]
-			let selectedBusiness = nextProps.params.selectedBusiness
+			let selectedPlatforms = nextProps.params.selectedPlatforms
 			let newNestedListData = Object.assign({},this.state.nestedListData)
-			newNestedListData.selectedBusiness = selectedBusiness
-			newNestedListData.dataList = this.state.businessCategories[selectedBusiness]
+			newNestedListData.title = selectedPlatforms
+			newNestedListData.dataList = this.state.platformsCategories[selectedPlatforms]
 			this.setState({
-				selectedBusiness : selectedBusiness,
+				selectedPlatforms : selectedPlatforms,
 				nestedListData : newNestedListData
 			})
 		}
@@ -56,7 +56,7 @@ export default class CriteriaPanel extends React.Component {
 			<div>
 				<Search/>
 				<NestedList nestedListData={this.state.nestedListData}/>
-				<Filter selectedBusiness={this.state.selectedBusiness}/>
+				<Filter/>
 				{this.props.children}
 			</div>
 		)

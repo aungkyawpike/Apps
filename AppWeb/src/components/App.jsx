@@ -5,7 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import {deepOrange400} from 'material-ui/styles/colors'
 import AppsBar from '../components/AppsBar'
-import BusinessMenu from '../components/BusinessMenu'
+import PlatformsMenu from '../components/PlatformsMenu'
 
 const appTheme = getMuiTheme({
 	palette: {
@@ -26,7 +26,7 @@ export default class App extends React.Component {
 				<div className="container-fluid">
 					<div>
 						<AppsBar/>
-						<BusinessMenu/>
+						<PlatformsMenu/>
 					</div>
 					{this.props.children}
 				</div>

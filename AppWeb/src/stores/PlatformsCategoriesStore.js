@@ -1,31 +1,31 @@
 import React from "react"
 import {EventEmitter} from "events"
 import dispatcher from "../dispatcher/dispatcher"
-import * as util from "../util/webUtil"
+import * as actions from '../actions/Actions'
+import * as util from "../util/Util"
 
-class BusinessCategoriesStore extends EventEmitter {
+class PlatformsCategoriesStore extends EventEmitter {
 
 	constructor() {
 		super()
-		this.businessCategories = []
-		this.storeDispatcherId = dispatcher.register(this.handleActions)
-		this.getBusinessCategoriesFromService()
+		this.platformsCategories = []
+		this.storeDispatcherToken = dispatcher.register(this.handleActions)
+		actions.getPlatformsCategoriesFromService()
 	}
 
-	getBusinessCategories = () => {
-		return this.businessCategories
+	getPlatformsCategories = () => {
+		return this.platformsCategories
 	}
 
-	recievedBusinessCategories = (data) => {
+	recievedPlatformsCategories = (data) => {
 		if (data != null) {
-			this.businessCategories = data
-			this.emit('change')
+			this.platformsCategories = data
 		}
 	}
 
-	getBusinessCategoriesFromService = (requestObj) => {
-		//util.getServerData("getBusinessCategories",requestObj,this.recievedBusinessCategories)
-		var responseBusinessCategories = {
+	getPlatformsCategoriesFromService = (requestObj) => {
+		//util.getServerData("getPlatformsCategories",requestObj,this.recievedPlatformsCategories)
+		var responsePlatformsCategories = {
 			product: [
 				{
 					id: 1,
@@ -96,16 +96,22 @@ class BusinessCategoriesStore extends EventEmitter {
 			property: [],
 			automobile: []
 		}
-		this.recievedBusinessCategories(responseBusinessCategories)
+		this.recievedPlatformsCategories(responsePlatformsCategories)
 	}
 
 	handleActions = (action) => {
-		if (action.type === 'GET_BUSINESS_CATEGORIES') {
-			this.getBusinessCategoriesFromService(action.data)
+		if (action.type === 'GET_PLATFORMS_CATEGORIES_FROM_SERVICE') {
+			this.getPlatformsCategoriesFromService(action.data)
 		}
+		else{
+			return true
+		}
+
+		this.emit('change')
+		return true
 	}
 
 }
 
-export default new BusinessCategoriesStore()
+export default new PlatformsCategoriesStore()
 

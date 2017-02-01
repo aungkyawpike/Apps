@@ -8,9 +8,9 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
 ReactDOM.render(
-	<Router history={browserHistory}>
+	<Router history={hashHistory}>
 		<Route path="/" component={App}>
-			<Route path="criteriaPanel/:selectedBusiness" component={CriteriaPanel}/>
+			<Route path="criteriaPanel/:selectedPlatforms" component={CriteriaPanel}/>
 		</Route>
 	</Router>
 	,
