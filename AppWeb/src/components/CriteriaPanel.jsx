@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Tabs, Tab} from 'material-ui/Tabs'
-import ActionHome from 'material-ui/svg-icons/action/home'
 import Filter from '../components/Filter'
-import BusinessCategories from '../components/BusinessCategories'
+import NestedList from '../components/NestedList'
 import Search from '../components/Search'
+import BusinessCategoriesStore from "../stores/BusinessCategoriesStore"
 
 export default class CriteriaPanel extends React.Component {
 
@@ -12,14 +11,42 @@ export default class CriteriaPanel extends React.Component {
 		super(props)
 		this.currentPath = this.props.location.pathname.split('/')[2]
 		this.state = {
+			businessCategories: BusinessCategoriesStore.getBusinessCategories(),
 			selectedBusiness: this.props.params.selectedBusiness
+		}
+		this.state.nestedListData = {
+			selectedBusiness: this.state.selectedBusiness,
+			selectedDataItem : '',
+			dataList : this.state.businessCategories[this.state.selectedBusiness],
+			subDataListName : 'subCategories'
+		}
+	}
+
+	componentWillMount = () => {
+		BusinessCategoriesStore.on('change', this.onChange)
+	}
+
+	componentWillUnmount = () => {
+		BusinessCategoriesStore.removeListener('change', this.onChange);
+	}
+
+	onChange = () => {
+		this.state = {
+			businessCategories: BusinessCategoriesStore.getBusinessCategories()
 		}
 	}
 
 	componentWillReceiveProps(nextProps){
 		if(this.currentPath !== nextProps.location.pathname.split('/')[2]){ //the route has changed
-			this.currentPath = nextProps.location.pathname.split('/')[2];
-			this.setState({ selectedBusiness : nextProps.params.selectedBusiness })
+			this.currentPath = nextProps.location.pathname.split('/')[2]
+			let selectedBusiness = nextProps.params.selectedBusiness
+			let newNestedListData = Object.assign({},this.state.nestedListData)
+			newNestedListData.selectedBusiness = selectedBusiness
+			newNestedListData.dataList = this.state.businessCategories[selectedBusiness]
+			this.setState({
+				selectedBusiness : selectedBusiness,
+				nestedListData : newNestedListData
+			})
 		}
 	}
 
@@ -27,9 +54,9 @@ export default class CriteriaPanel extends React.Component {
 
 		return (
 			<div>
-				<BusinessCategories selectedBusiness={this.state.selectedBusiness}/>
-				<Filter selectedBusiness={this.state.selectedBusiness}/>
 				<Search/>
+				<NestedList nestedListData={this.state.nestedListData}/>
+				<Filter selectedBusiness={this.state.selectedBusiness}/>
 				{this.props.children}
 			</div>
 		)
