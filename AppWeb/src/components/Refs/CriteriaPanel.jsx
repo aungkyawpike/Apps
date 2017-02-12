@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Filter from '../components/Filter'
-import NestedList from '../components/NestedList'
-import Search from '../components/Search'
-import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
+import Filter from './Filter'
+import NestedList from './NestedList'
+import Search from './Search'
+import PlatformsCategoriesStore from "../../stores/PlatformsCategoriesStore"
 
 export default class CriteriaPanel extends React.Component {
 

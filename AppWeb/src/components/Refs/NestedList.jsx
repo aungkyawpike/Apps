@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
 import {List, ListItem, makeSelectable} from 'material-ui/List'
-import ListExampleSelectable from '../components/ListExampleSelectable'
+import ListExampleSelectable from '../ListExampleSelectable'
 
 export default class NestedList extends React.Component {
 
