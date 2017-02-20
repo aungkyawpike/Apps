@@ -4,39 +4,10 @@ import AutoComplete from 'material-ui/AutoComplete'
 import TextField from 'material-ui/TextField'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
-import TreeSelect from 'uxcore-tree-select'
-import '!style!css!uxcore/assets/iconfont.css'
-import '!style!css!uxcore/assets/orange.css'
+import { TreeSelect } from 'antd'
+const TreeNode = TreeSelect.TreeNode
+import 'antd/lib/tree-select/style/css'
 import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
-
-function generateData(x = 3, y = 2, z = 1, gData = []) {
-	// x：每一级下的节点总数。y：每级节点里有y个节点、存在子节点。z：树的level层级数（0表示一级）
-	function _loop(_level, _preKey, _tns) {
-		const preKey = _preKey || '0';
-		const tns = _tns || gData;
-
-		const children = [];
-		for (let i = 0; i < x; i++) {
-			const key = `${preKey}-${i}`;
-			tns.push({label: `${key}-label`, value: `${key}-value`, key, disabled: key === '0-0-0-1' ? true : false});
-			if (i < y) {
-				children.push(key);
-			}
-		}
-		if (_level < 0) {
-			return tns;
-		}
-		const __level = _level - 1;
-		children.forEach((key, index) => {
-			tns[index].children = [];
-			return _loop(__level, key, tns[index].children);
-		});
-	}
-	_loop(z);
-	return gData;
-}
-
-let gData = generateData()
 
 export default class ProductCriteriaPanel extends React.Component {
 
@@ -46,7 +17,7 @@ export default class ProductCriteriaPanel extends React.Component {
 			search: [],
 			inputValue: '0-0-0-label',
 			value: '0-0-0-value',
-			selectedProductCategory : 1,
+			selectedProductCategory: 1,
 			minPrice: '',
 			maxPrice: '',
 			condition: "All",
@@ -85,7 +56,7 @@ export default class ProductCriteriaPanel extends React.Component {
 	}
 
 	handleProductCategory = (value) => this.setState({
-		value : value
+		value: value
 	})
 
 	onStoreChange = () => {
@@ -103,17 +74,26 @@ export default class ProductCriteriaPanel extends React.Component {
 					onUpdateInput={this.handleSearch}
 					fullWidth={true}
 				/>
-				<TreeSelect style={{width: 300}}
-											dropdownStyle={{maxHeight: 200, overflow: 'auto'}}
-											placeholder={<i>All Categories</i>}
-											searchPlaceholder="please search"
-											showSearch={false} allowClear treeLine={false}
-											inputValue={this.state.inputValue}
-											value={this.state.value}
-											treeData={gData}
-											treeNodeFilterProp="label"
-											filterTreeNode={false}
-											onChange={this.handleProductCategory} />
+				<TreeSelect
+					showSearch
+					style={{ width: 300 }}
+					value={this.state.value}
+					dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+					placeholder="Please select"
+					allowClear
+					treeDefaultExpandAll
+					onChange={this.handleProductCategory}
+				>
+					<TreeNode value="parent 1" title="parent 1" key="0-1">
+						<TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
+							<TreeNode value="leaf1" title="my leaf" key="random"/>
+							<TreeNode value="leaf2" title="your leaf" key="random1"/>
+						</TreeNode>
+						<TreeNode value="parent 1-1" title="parent 1-1" key="random2">
+							<TreeNode value="sss" title={<b style={{ color: '#08c' }}>sss</b>} key="random3"/>
+						</TreeNode>
+					</TreeNode>
+				</TreeSelect>
 				<div>
 					<TextField
 						id="minPrice"

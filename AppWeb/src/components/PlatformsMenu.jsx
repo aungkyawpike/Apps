@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import FlatButton from 'material-ui/FlatButton';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import { Link, browserHistory } from 'react-router'
 import ProductCriteriaPanel from './ProductCriteriaPanel'
 

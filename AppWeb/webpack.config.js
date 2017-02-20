@@ -12,10 +12,12 @@ var HOST = process.env.HOST || "localhost";
 var PORT = process.env.PORT || "8888";
 
 loaders.push({
-	test: /\.scss$/,
-	loader: ExtractTextPlugin.extract('style', 'css?sourceMap&localIdentName=[local]___[hash:base64:5]!sass?outputStyle=expanded'),
-	exclude: ['node_modules']
-});
+		test: /\.scss$/,
+		loader: ExtractTextPlugin.extract('style', 'css?sourceMap&localIdentName=[local]___[hash:base64:5]!sass?outputStyle=expanded'),
+		exclude: ['node_modules']
+	},
+	{test: /\.css$/, loader: "style-loader!css-loader"}
+);
 
 module.exports = {
 	entry: [
@@ -24,7 +26,7 @@ module.exports = {
 		'./src/index.jsx', // Your appʼs entry point
 		'./src/styles/index.scss'
 	],
-	watch:true,
+	watch: true,
 	devtool: process.env.WEBPACK_DEVTOOL || 'source-map',
 	output: {
 		path: path.join(__dirname, 'public'),
@@ -52,8 +54,8 @@ module.exports = {
 		port: PORT,
 		host: HOST,
 		/*proxy: {
-			"**" : "http://localhost:57772"
-		}*/
+		 "**" : "http://localhost:57772"
+		 }*/
 	},
 	plugins: [
 		new webpack.NoErrorsPlugin(),
@@ -66,7 +68,7 @@ module.exports = {
 			template: './src/index.html',
 			files: {
 				css: ['style.css'],
-				js: [ "bundle.js"]
+				js: ["bundle.js"]
 			}
 		})
 		//new CopyWebpackPlugin([
