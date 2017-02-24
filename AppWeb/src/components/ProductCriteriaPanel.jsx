@@ -1,28 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import AutoComplete from 'material-ui/AutoComplete'
-import TextField from 'material-ui/TextField'
-import DropDownMenu from 'material-ui/DropDownMenu'
-import MenuItem from 'material-ui/MenuItem'
-import { TreeSelect } from 'antd'
-const TreeNode = TreeSelect.TreeNode
-import 'antd/lib/tree-select/style/css'
+import { Card, Form, TreeSelect, Input,Row, Col, Select, InputNumber } from 'antd'
+//import 'antd/lib/tree-select/style/css'
 import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
+const InputGroup = Input.Group
+const Option = Select.Option
+const FormItem = Form.Item
 
 export default class ProductCriteriaPanel extends React.Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-			search: [],
-			inputValue: '0-0-0-label',
-			value: '0-0-0-value',
-			selectedProductCategory: 1,
+			search: '',
+			selectedProductCategory: undefined,
 			minPrice: '',
 			maxPrice: '',
 			condition: "All",
 			productCategories: PlatformsCategoriesStore.getPlatformsCategories()['product']
 		}
+		this.reg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/
 	}
 
 	componentWillMount = () => {
@@ -33,31 +30,39 @@ export default class ProductCriteriaPanel extends React.Component {
 		PlatformsCategoriesStore.removeListener('change', this.onStoreChange);
 	}
 
-	handleSearch = (text) => {
-		this.setState({search: [text]})
+	handleSearch = (event) => {
+		this.setState({search: event.target.value})
+	}
+
+	handleProductCategory = (value) => {
+		this.setState({
+			selectedProductCategory: value
+		})
 	}
 
 	handleMinPrice = (event) => {
-		this.setState({
-			minPrice: event.target.value
-		});
+		const value = event.target.value;
+		if ((!isNaN(value) && this.reg.test(value)) || value === '' || value === '-') {
+			this.setState({
+				minPrice: value
+			})
+		}
 	}
 
 	handleMaxPrice = (event) => {
-		this.setState({
-			maxPrice: event.target.value
-		});
+		const value = event.target.value;
+		if ((!isNaN(value) && this.reg.test(value)) || value === '' || value === '-') {
+			this.setState({
+				maxPrice: value
+			})
+		}
 	}
 
-	handleCondition = (event, index, value) => {
+	handleCondition = (value) => {
 		this.setState({
 			condition: value
 		})
 	}
-
-	handleProductCategory = (value) => this.setState({
-		value: value
-	})
 
 	onStoreChange = () => {
 		this.state = {
@@ -65,60 +70,77 @@ export default class ProductCriteriaPanel extends React.Component {
 		}
 	}
 
+	recursiveProcess = (dataList, subDataListName, listItems)=> {
+		for (var dataItem of dataList) {
+			let nestedListItems = []
+			if (dataItem[subDataListName].length > 0) {
+				this.recursiveProcess(dataItem[subDataListName], subDataListName, nestedListItems)
+			}
+			listItems.push({
+				value: dataItem.id + '',
+				key: dataItem.id,
+				label: dataItem.name,
+				children: nestedListItems
+			})
+		}
+	}
+
 	render() {
+		let listItems = []
+
+		this.recursiveProcess(this.state.productCategories, 'subCategories', listItems)
+
 		return (
-			<div>
-				<AutoComplete
-					hintText="Search"
-					dataSource={this.state.search}
-					onUpdateInput={this.handleSearch}
-					fullWidth={true}
-				/>
-				<TreeSelect
-					showSearch
-					style={{ width: 300 }}
-					value={this.state.value}
-					dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-					placeholder="Please select"
-					allowClear
-					treeDefaultExpandAll
-					onChange={this.handleProductCategory}
-				>
-					<TreeNode value="parent 1" title="parent 1" key="0-1">
-						<TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
-							<TreeNode value="leaf1" title="my leaf" key="random"/>
-							<TreeNode value="leaf2" title="your leaf" key="random1"/>
-						</TreeNode>
-						<TreeNode value="parent 1-1" title="parent 1-1" key="random2">
-							<TreeNode value="sss" title={<b style={{ color: '#08c' }}>sss</b>} key="random3"/>
-						</TreeNode>
-					</TreeNode>
-				</TreeSelect>
-				<div>
-					<TextField
-						id="minPrice"
-						hintText="Minimum Price"
-						value={this.state.minPrice}
-						onChange={this.handleMinPrice}
-					/>
-				</div>
-				<div>
-					<TextField
-						id="maxPrice"
-						hintText="Max Price"
-						value={this.state.maxPrice}
-						onChange={this.handleMaxPrice}
-					/>
-				</div>
-				<div>
-					<DropDownMenu value={this.state.condition} onChange={this.handleCondition}>
-						<MenuItem value={"All"} primaryText="All"/>
-						<MenuItem value={"New"} primaryText="New"/>
-						<MenuItem value={"Used"} primaryText="Used"/>
-					</DropDownMenu>
-				</div>
-				{this.props.children}
-			</div>
+			<Card>
+				<Form>
+					<FormItem label="Search">
+						<Row type="flex" justify="start" align="middle">
+							<Col xs={24} sm={16} md={10} lg={10}>
+								<Input placeholder="Search" value={this.state.search} onChange={this.handleSearch}/>
+							</Col>
+						</Row>
+					</FormItem>
+					<FormItem label="Product Category">
+						<Row type="flex" justify="start">
+							<Col xs={24} sm={16} md={10} lg={10}>
+								<TreeSelect
+									style={{ width: '100%' }}
+									value={this.state.selectedProductCategory}
+									dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+									treeData={listItems}
+									placeholder="Please select"
+									onChange={this.handleProductCategory}
+								/>
+							</Col>
+						</Row ></FormItem>
+					<FormItem label="Price">
+						<Row type="flex" justify="start">
+							<Col xs={24} sm={16} md={10} lg={10}>
+								<InputGroup compact>
+									<Input placeholder="Min" style={{ width: '50%' }} value={this.state.minPrice}
+												 onChange={this.handleMinPrice}/>
+									<Input placeholder="Max" style={{ width: '50%' }} value={this.state.maxPrice}
+												 onChange={this.handleMaxPrice}/>
+								</InputGroup>
+							</Col>
+						</Row>
+					</FormItem>
+					<FormItem label="Condition">
+						<Row type="flex" justify="start">
+							<Col xs={24} sm={16} md={10} lg={10}>
+								<InputGroup compact>
+									<Select defaultValue="All" value={this.state.condition} onChange={this.handleCondition}>
+										<Option value="All">All</Option>
+										<Option value="New">New</Option>
+										<Option value="Used">Used</Option>
+									</Select>
+								</InputGroup>
+							</Col>
+						</Row>
+					</FormItem>
+					{this.props.children}
+				</Form>
+			</Card>
 		)
 	}
 

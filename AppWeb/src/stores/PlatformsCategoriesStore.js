@@ -40,7 +40,7 @@ class PlatformsCategoriesStore extends EventEmitter {
 									name: "Power Bank",
 									subCategories: [
 										{
-											id: 3,
+											id: 7,
 											name: "Mi",
 											subCategories: []
 										}

@@ -70,6 +70,11 @@ module.exports = {
 				css: ['style.css'],
 				js: ["bundle.js"]
 			}
+		}),
+		new webpack.ProvidePlugin({
+			jQuery: 'jquery',
+			$: 'jquery',
+			jquery: 'jquery'
 		})
 		//new CopyWebpackPlugin([
 		//	{
