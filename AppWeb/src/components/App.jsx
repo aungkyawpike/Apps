@@ -23,7 +23,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<MuiThemeProvider muiTheme={appTheme}>
-				<div className="container-fluid">
+				<div>
 					<div>
 						<AppsBar/>
 						<PlatformsMenu/>

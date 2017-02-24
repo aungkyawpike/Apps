@@ -1,34 +1,38 @@
 import React from 'react';
-import ReactDOM from "react-dom";
 import FlatButton from 'material-ui/FlatButton';
-import { Link, browserHistory } from 'react-router'
-import ProductCriteriaPanel from './ProductCriteriaPanel'
+import { Link, hashHistory } from 'react-router'
+import ProductCriteriaPanel from './ProductsCriteriaPanel'
 import { Menu, Icon } from 'antd'
+import * as actions from '../actions/Actions'
 
 export default class PlatformsMenu extends React.Component {
 
 	constructor(props) {
 		super(props)
-		browserHistory.push("#/productcriteriapanel")
+		actions.getPlatformsCategoriesFromService()
+	}
+
+	componentWillMount = () => {
+		hashHistory.push("/productscriteriapanel")
 	}
 
 	render() {
 		return (
 			<Menu mode="horizontal">
 				<Menu.Item>
-					<Link to="/productcriteriapanel">Product</Link>
+					<Link to="/productscriteriapanel">Product</Link>
 				</Menu.Item>
 				<Menu.Item>
-					<Link to="/servicecriteriapanel">Service</Link>
+					<Link to="/servicescriteriapanel">Service</Link>
 				</Menu.Item>
 				<Menu.Item>
-					<Link to="/jobcriteriapanel">Job</Link>
+					<Link to="/jobscriteriapanel">Job</Link>
 				</Menu.Item>
 				<Menu.Item>
-					<Link to="/propertycriteriapanel">Property</Link>
+					<Link to="/propertiescriteriapanel">Property</Link>
 				</Menu.Item>
 				<Menu.Item>
-					<Link to="/automobilecriteriapanel">Automobile</Link>
+					<Link to="/automobilescriteriapanel">Automobile</Link>
 				</Menu.Item>
 			</Menu>
 		)

@@ -10,7 +10,6 @@ class PlatformsCategoriesStore extends EventEmitter {
 		super()
 		this.platformsCategories = []
 		this.storeDispatcherToken = dispatcher.register(this.handleActions)
-		actions.getPlatformsCategoriesFromService()
 	}
 
 	getPlatformsCategories = () => {

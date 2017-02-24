@@ -1,13 +1,14 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { Card, Form, TreeSelect, Input,Row, Col, Select, InputNumber } from 'antd'
+import { Card, Form, TreeSelect, Input, Row, Col, Select, Button} from 'antd'
 //import 'antd/lib/tree-select/style/css'
+import { hashHistory } from 'react-router'
 import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
+import * as actions from '../actions/Actions'
 const InputGroup = Input.Group
 const Option = Select.Option
 const FormItem = Form.Item
 
-export default class ProductCriteriaPanel extends React.Component {
+export default class ProductsCriteriaPanel extends React.Component {
 
 	constructor(props) {
 		super(props)
@@ -19,7 +20,7 @@ export default class ProductCriteriaPanel extends React.Component {
 			condition: "All",
 			productCategories: PlatformsCategoriesStore.getPlatformsCategories()['product']
 		}
-		this.reg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/
+		this.numberReg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/
 	}
 
 	componentWillMount = () => {
@@ -28,6 +29,12 @@ export default class ProductCriteriaPanel extends React.Component {
 
 	componentWillUnmount = () => {
 		PlatformsCategoriesStore.removeListener('change', this.onStoreChange);
+	}
+
+	onStoreChange = () => {
+		this.state = {
+			platformsCategories: PlatformsCategoriesStore.getPlatformsCategories()[this.props.params.selectedPlatform]
+		}
 	}
 
 	handleSearch = (event) => {
@@ -42,7 +49,7 @@ export default class ProductCriteriaPanel extends React.Component {
 
 	handleMinPrice = (event) => {
 		const value = event.target.value;
-		if ((!isNaN(value) && this.reg.test(value)) || value === '' || value === '-') {
+		if ((!isNaN(value) && this.numberReg.test(value)) || value === '' || value === '-') {
 			this.setState({
 				minPrice: value
 			})
@@ -51,7 +58,7 @@ export default class ProductCriteriaPanel extends React.Component {
 
 	handleMaxPrice = (event) => {
 		const value = event.target.value;
-		if ((!isNaN(value) && this.reg.test(value)) || value === '' || value === '-') {
+		if ((!isNaN(value) && this.numberReg.test(value)) || value === '' || value === '-') {
 			this.setState({
 				maxPrice: value
 			})
@@ -64,10 +71,16 @@ export default class ProductCriteriaPanel extends React.Component {
 		})
 	}
 
-	onStoreChange = () => {
-		this.state = {
-			platformsCategories: PlatformsCategoriesStore.getPlatformsCategories()[this.props.params.selectedPlatform]
+	handleFormSubmit = ()=> {
+		const requestObj = {
+			search: this.state.search,
+			selectedProductCategory: this.state.selectedProductCategory,
+			minPrice: this.state.minPrice,
+			maxPrice: this.state.maxPrice,
+			condition: this.state.condition
 		}
+		actions.getProductsFromService(requestObj)
+		hashHistory.push("/products")
 	}
 
 	recursiveProcess = (dataList, subDataListName, listItems)=> {
@@ -135,6 +148,13 @@ export default class ProductCriteriaPanel extends React.Component {
 										<Option value="Used">Used</Option>
 									</Select>
 								</InputGroup>
+							</Col>
+						</Row>
+					</FormItem>
+					<FormItem>
+						<Row type="flex" justify="start">
+							<Col xs={24} sm={16} md={10} lg={10}>
+								<Button type="primary" onClick={this.handleFormSubmit}>Go</Button>
 							</Col>
 						</Row>
 					</FormItem>
