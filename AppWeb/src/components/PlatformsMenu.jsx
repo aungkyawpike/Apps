@@ -1,5 +1,4 @@
 import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
 import { Link, hashHistory } from 'react-router'
 import ProductCriteriaPanel from './ProductsCriteriaPanel'
 import { Menu, Icon } from 'antd'

@@ -7,6 +7,7 @@ import {Router, Route, IndexRoute, hashHistory, browserHistory} from "react-rout
 import App from "./components/App"
 import ProductsCriteriaPanel from './components/ProductsCriteriaPanel'
 import Products from './components/Products'
+import ProductDetail from './components/ProductDetail'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 injectTapEventPlugin()
@@ -16,6 +17,7 @@ ReactDOM.render(
 		<Route path="/" component={App}>
 			<Route path="productscriteriapanel" component={ProductsCriteriaPanel}/>
 			<Route path="products" component={Products}/>
+			<Route path="productdetail/:id" component={ProductDetail}/>
 		</Route>
 	</Router>
 	,

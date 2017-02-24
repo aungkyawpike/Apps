@@ -1,8 +1,8 @@
 import React from 'react'
 import { Card, Row, Col} from 'antd'
+import { hashHistory } from 'react-router'
 import ProductsStore from "../stores/ProductsStore"
 import * as actions from '../actions/Actions'
-import { hashHistory } from 'react-router'
 
 export default class Products extends React.Component {
 
@@ -27,7 +27,34 @@ export default class Products extends React.Component {
 		}
 	}
 
+	handleGoDetail = (id) =>{
+		hashHistory.push("/productdetail/" + id)
+	}
+
 	render() {
-		return <div>{JSON.stringify(this.state.products)}</div>
+		return (
+			<div>
+				<Row type="flex" justify="start">​
+					{
+						this.state.products.map(product => (
+								<Col xs={24} sm={12} md={8} lg={6} key={product.id} onClick={()=>this.handleGoDetail(product.id)}>
+									<Card title={product.name} bordered={false}>
+										<Row>
+											<div><img src={product.images[0]} style={{width:'100%',height:'100%'}}/></div>
+										</Row>
+										<Row>
+											<div>{product.description}</div>
+										</Row>
+										<Row>
+											<div>{product.price}</div>
+										</Row>
+									</Card>
+								</Col>
+							)
+						)
+					}
+				</Row>
+			</div>
+		)
 	}
 }

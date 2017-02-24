@@ -107,7 +107,7 @@ export default class ProductsCriteriaPanel extends React.Component {
 			<Card>
 				<Form>
 					<FormItem label="Search">
-						<Row type="flex" justify="start" align="middle">
+						<Row type="flex" justify="start">
 							<Col xs={24} sm={16} md={10} lg={10}>
 								<Input placeholder="Search" value={this.state.search} onChange={this.handleSearch}/>
 							</Col>
