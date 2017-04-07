@@ -33,6 +33,9 @@ export default class PlatformsMenu extends React.Component {
 				<Menu.Item>
 					<Link to="/automobilescriteriapanel">Automobile</Link>
 				</Menu.Item>
+				<Menu.Item>
+					<Link to="/create">Create</Link>
+				</Menu.Item>
 			</Menu>
 		)
 	}

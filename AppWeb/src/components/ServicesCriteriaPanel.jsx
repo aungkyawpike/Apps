@@ -9,7 +9,7 @@ const InputGroup = Input.Group
 const Option = Select.Option
 const FormItem = Form.Item
 
-export default class ProductsCriteriaPanel extends React.Component {
+export default class ServicesCriteriaPanel extends React.Component {
 
 	constructor(props) {
 		super(props)
