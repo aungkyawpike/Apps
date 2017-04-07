@@ -5,8 +5,9 @@ import ProductsStore from "../stores/ProductsStore"
 import * as actions from '../actions/Actions'
 import Category from './Category'
 import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
+import validate from 'validate.js'
 const Dragger = Upload.Dragger
-const validate = validate
+
 
 export default class CreateService extends React.Component {
 
@@ -14,14 +15,11 @@ export default class CreateService extends React.Component {
 		super(props)
 
 		this.state = {
-			selectedPlatform: 'product',
-			selectedCategory: undefined,
-			categories:PlatformsCategoriesStore.getPlatformsCategories()['product'],
 			condition: 'new',
 			title: '',
 			titleError: '',
-			titleBorderRedCss : '',
-			description : '',
+			titleBorderRedCss: '',
+			description: '',
 			price: '',
 			name: '',
 			email: '',
@@ -46,19 +44,7 @@ export default class CreateService extends React.Component {
 				}
 			}
 		}
-	}
 
-	handlePlatformsChange = (value) => {
-		this.setState({
-			selectedPlatform: value,
-			categories:PlatformsCategoriesStore.getPlatformsCategories()[value],
-		})
-	}
-
-	handleCategoryChange = (value) => {
-		this.setState({
-			selectedCategory: value
-		})
 	}
 
 	handleConditionChange = (value) => {
@@ -124,29 +110,6 @@ export default class CreateService extends React.Component {
 	render() {
 		return (
 			<div>
-				<Row>
-					<Col xs={6} sm={6} md={2} lg={2}>
-						<div>Platforms</div>
-					</Col>
-					<Col xs={12} sm={12} md={12} lg={12}>
-						<Select defaultValue="product" style={{ width: '100%' }} onChange={this.handlePlatformsChange}>
-							<Option value="product">Product</Option>
-							<Option value="service">Service</Option>
-						</Select>
-					</Col>
-				</Row>
-				<Row>
-					<Col xs={6} sm={6} md={2} lg={2}>
-						<div>Category</div>
-					</Col>
-					<Col xs={12} sm={12} md={12} lg={12}>
-						<Category
-							selectedCategory={this.state.selectedCategory}
-							categories={this.state.categories}
-							handleCategory={this.handleCategoryChange}
-						/>
-					</Col>
-				</Row>
 				<Row>
 					<Col xs={6} sm={6} md={2} lg={2}>
 						<div>Condition</div>
