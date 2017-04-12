@@ -8,7 +8,6 @@ import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
 import validate from 'validate.js'
 const Dragger = Upload.Dragger
 
-
 export default class CreateProduct extends React.Component {
 
 	constructor(props) {
