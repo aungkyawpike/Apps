@@ -1,17 +1,29 @@
 var express = require('express');
 var router = express.Router();
+var mongodb = require('../services/mongodbService/mongodbService');
 
 // api/products
 router.route('/')
-    .get(function(req, res, next) {
-        res.json({message: 'GET api/products'});
+    .get(async (req, res, next) => {
+        try {
+            mongodb.get().collection('products').find()
+                .toArray((err, products)=>{
+                    res.json({products: products});
+                    mongodb.close();
+                });
+        }
+        catch(e){
+            res.json({products: []});
+        }
     })
-    .post(function(req, res, next) {
-        console.log(req.body);
-        res.json({
-            message: 'POST api/products',
-            echo: req.body.products
-        });
+    .post(async (req, res, next) => {
+        try {
+            var result = await mongodb.get().collection('products').insertMany(req.body.products);
+            res.json(result);
+        }
+        catch(e){
+            res.json({products: []});
+        }
     })
     .delete(function(req, res, next) {
         res.json({message: 'DELETE api/products'});

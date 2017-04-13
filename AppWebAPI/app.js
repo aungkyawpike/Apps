@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var products = require('./routes/products');
 
 var app = express();
+var mongodb = require('./services/mongodbService/mongodbService');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,5 +45,13 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+mongodb.connect('mongodb://localhost:27017/test', function(err) {
+    if (err) {
+        console.log('Unable to connect to Mongodb.')
+        process.exit(1)
+    }
+    console.log('connected to Mongodb.')
+})
 
 module.exports = app;
