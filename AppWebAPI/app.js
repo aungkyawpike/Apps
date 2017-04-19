@@ -10,7 +10,8 @@ var users = require('./routes/users');
 var products = require('./routes/products');
 
 var app = express();
-var mongodb = require('./services/mongodbService/mongodbService');
+
+var mongoDBService = require('./services/mongodbService/mongodbService');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,23 +31,23 @@ app.use('/api/products', products);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
-mongodb.connect('mongodb://localhost:27017/test', function(err) {
+mongoDBService.connect('mongodb://localhost:27017/test', function(err) {
     if (err) {
         console.log('Unable to connect to Mongodb.')
         process.exit(1)
