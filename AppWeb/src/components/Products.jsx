@@ -34,10 +34,10 @@ export default class Products extends React.Component {
 	render() {
 		return (
 			<div>
-				<Row type="flex" justify="start">​
+				<Row id="products" type="flex" justify="start">​
 					{
 						this.state.products.map(product => (
-								<Col xs={24} sm={12} md={8} lg={6} key={product.id} onClick={()=>this.handleGoDetail(product.id)}>
+								<Col xs={24} sm={12} md={8} lg={6} key={product.id} className="product" onClick={()=>this.handleGoDetail(product.id)}>
 									<Card title={product.name} bordered={false}>
 										<Row>
 											<div><img src={product.images[0]} style={{width:'100%',height:'100%'}}/></div>

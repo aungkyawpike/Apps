@@ -4,7 +4,6 @@ var webpack = require('webpack');
 var path = require('path');
 var loaders = require('./webpack.loaders');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 var DashboardPlugin = require('webpack-dashboard/plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -32,9 +31,6 @@ module.exports = {
 		path: path.join(__dirname, 'public'),
 		filename: 'bundle.js',
 	},
-	//externals: {
-	//	"jquery": "jQuery"
-	//},
 	resolve: {
 		extensions: ['', '.js', '.jsx'],
 	},
@@ -76,24 +72,5 @@ module.exports = {
 			$: 'jquery',
 			jquery: 'jquery'
 		})
-		//new CopyWebpackPlugin([
-		//	{
-		//		from: './src/images',
-		//		to: './images'
-		//	},
-		//	{
-		//		from: './src/styles/',
-		//		to: './styles'
-		//	},
-		//	{
-		//		from: './src/scripts/',
-		//		to: './scripts'
-		//	}
-		//], {
-		//	ignore: [
-		//		// Doesn't copy any files with a txt extension
-		//		//'*.txt'
-		//	]
-		//})
 	]
 };
