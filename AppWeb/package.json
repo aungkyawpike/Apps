@@ -8,7 +8,8 @@
     "build": "webpack --config webpack.production.config.js --progress --profile --colors",
     "start": "webpack-dev-server --progress --profile --colors",
     "lint": "eslint --ext js --ext jsx src || exit 0",
-    "test": "mocha src/test/**/*.js --timeout 100000"
+    "test": "mocha src/test/**/*.js --timeout 100000",
+    "e2e": "node nightwatch.js src/test"
   },
   "repository": {
     "type": "git",
@@ -53,7 +54,6 @@
     "babel-preset-react": "6.16.0",
     "babel-runtime": "^6.11.6",
     "chai": "^3.5.0",
-    "chai-webdriver": "^1.2.0",
     "chromedriver": "^2.29.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "0.26.1",
@@ -61,6 +61,7 @@
     "file-loader": "0.9.0",
     "html-webpack-plugin": "^2.22.0",
     "mocha": "^3.2.0",
+    "nightwatch": "^0.9.14",
     "react-hot-loader": "1.3.1",
     "selenium-webdriver": "^3.3.0",
     "style-loader": "0.13.1",
