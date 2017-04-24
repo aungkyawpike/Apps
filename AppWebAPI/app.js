@@ -47,7 +47,7 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-mongoDBService.connect('mongodb://localhost:27017/test', function(err) {
+mongoDBService.connect(function(err) {
     if (err) {
         console.log('Unable to connect to Mongodb.')
         process.exit(1)
