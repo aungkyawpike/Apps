@@ -10,7 +10,23 @@ class productsManager {
         return await productsProcessor.postProducts(products);
     }
 
-    async deleteProducts(productIds) {
+    async deleteProducts(ids) {
+        return [];
+    }
+
+    async getProduct(id) {
+        return await productsProcessor.getProduct(id);
+    }
+
+    async postProduct(product) {
+        return await productsProcessor.postProduct(product);
+    }
+
+    async putProduct(product) {
+        return await productsProcessor.putProduct(product);
+    }
+
+    async deleteProduct(id) {
         return [];
     }
 }

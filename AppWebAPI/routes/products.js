@@ -11,11 +11,11 @@ router.route('/')
         var result = await productService.getProducts();
         res.json(result);
     })
-    .post(
+    /*.post(
         upload.array('photos', 12),
         async (req, res, next) => {
         res.json(await productService.postProducts(req.body.products));
-    })
+    })*/
     .delete(function(req, res, next) {
         res.json({message: 'DELETE api/products'});
     });
@@ -25,9 +25,18 @@ router.route('/:productId')
     .get(function(req, res, next) {
         res.json({message: 'GET api/products:productId - ' + req.params.productId});
     })
-    .put(function(req, res, next) {
-        res.json({message: req.body.name});
-    })
+    .post(
+        upload.array('photos', 12),
+        async (req, res, next) => {
+            res.json(await productService.postProduct(req.body.product));
+        }
+    )
+    .put(
+        upload.array('photos', 12),
+        async (req, res, next) => {
+            res.json(await productService.postProduct(req.body.product));
+        }
+    )
     .delete(function(req, res, next) {
         res.json({message: 'DELETE api/products:productId - '+ req.params.productId});
     });

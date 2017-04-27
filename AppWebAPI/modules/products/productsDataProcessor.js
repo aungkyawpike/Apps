@@ -9,7 +9,8 @@ class productsDataProcessor{
                 .toArray();
         }
         catch(e){
-            return {products: []};
+            console.log(e);
+            return e;
         }
     }
 
@@ -18,12 +19,77 @@ class productsDataProcessor{
             return await mongoDBService.db.collection('products').insertMany(products);
         }
         catch(e){
-            return {products: []};
+            console.log(e);
+            return e;
         }
     }
 
-    async deleteProducts(productIds){
-        return [];
+    async putProducts(products){
+        try {
+            var responses = []
+            for( var product in products) {
+                var response = await mongoDBService.db.collection('products')
+                    .replaceOne({_id: product._id}, product, {upsert: true});
+                responses.push(response)
+            }
+            return responses
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    async deleteProducts(_ids){
+        try {
+            return await mongoDBService.db.collection('products').remove({_id : {'$in':_ids}});
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    async getProduct(_id) {
+        try {
+            return await mongoDBService.db.collection('products')
+                .find({productId : _id})
+                .toArray();
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    async postProduct(product) {
+        try {
+            return await mongoDBService.db.collection('products').insertOne(product);
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    async putProduct(product) {
+        try {
+            return await mongoDBService.db.collection('products').replaceOne({_id : _id}, product, { upsert: true });
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    async deleteProduct(_id) {
+        try {
+            return await mongoDBService.db.collection('products').deleteOne({_id : _id});
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
     }
 }
 
