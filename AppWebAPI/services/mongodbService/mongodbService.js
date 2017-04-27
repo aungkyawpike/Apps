@@ -1,20 +1,29 @@
 var mongoClient = require('mongodb').MongoClient;
-var gridfsStorage = require('multer-gridfs-storage');
 var multer  = require('multer');
+var gridfs = require('multer-gridfs-storage');
 var crypto = require('crypto');
 var path = require('path');
 
 class MongoDBService {
 
-    constructor(dbUrl) {
+    constructor() {
         this.db = null;
-        this.dbURL = dbUrl;
-        initializeGridFS();
+        this.upload = null;
     }
 
-    initializeGridFS() {
-        var storage = gridfsStorage({
-            url: dbUrl,
+    connect(url,done) {
+        var mongoDBService = this;
+        if (mongoDBService.db) return done();
+        mongoClient.connect(url, function (err, db) {
+            if (err) return done(err);
+            mongoDBService.db = db;
+            done();
+        })
+    }
+
+    connectGridFS(url) {
+        var gridfsStorage = gridfs({
+            url: url,
             identifier: function(req, file, cb) {
                 cb(null, Math.floor(Math.random() * 1000000));
             },
@@ -34,18 +43,7 @@ class MongoDBService {
                 }
             }
         });
-        this.upload = multer({ storage: storage });
-    }
-
-    connect(done) {
-        var mongoDBService = this;
-        if (mongoDBService.db) return done();
-
-        mongoClient.connect(url, function (err, db) {
-            if (err) return done(err);
-            mongoDBService.db = db;
-            done();
-        })
+        this.upload = multer({ storage: gridfsStorage });
     }
 
     close(done) {
@@ -56,11 +54,9 @@ class MongoDBService {
             })
         }
     }
-
-
 }
 
-module.exports = new MongoDBService('mongodb://localhost:27017/test')
+module.exports = new MongoDBService()
 
 
 
