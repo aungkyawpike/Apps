@@ -10,24 +10,28 @@ class productsManager {
         return await productsProcessor.postProducts(products);
     }
 
-    async deleteProducts(ids) {
-        return [];
+    async putProducts(products){
+        return await productsProcessor.putProducts(products);
     }
 
-    async getProduct(id) {
-        return await productsProcessor.getProduct(id);
+    async deleteProducts(_ids){
+        return await productsProcessor.deleteProducts(_ids);
+    }
+
+    async getProduct(_id) {
+        return await productsProcessor.getProduct(_id);
     }
 
     async postProduct(product) {
         return await productsProcessor.postProduct(product);
     }
 
-    async putProduct(product) {
-        return await productsProcessor.putProduct(product);
+    async putProduct(_id, product) {
+        return await productsProcessor.putProduct(_id, product);
     }
 
-    async deleteProduct(id) {
-        return [];
+    async deleteProduct(_id) {
+        return await productsDataProcessor.deleteProduct(_id);
     }
 }
 

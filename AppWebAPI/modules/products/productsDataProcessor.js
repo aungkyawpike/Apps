@@ -27,7 +27,7 @@ class productsDataProcessor{
     async putProducts(products){
         try {
             var responses = []
-            for( var product in products) {
+            for( var product of products) {
                 var response = await mongoDBService.db.collection('products')
                     .replaceOne({_id: product._id}, product, {upsert: true});
                 responses.push(response)
@@ -53,7 +53,7 @@ class productsDataProcessor{
     async getProduct(_id) {
         try {
             return await mongoDBService.db.collection('products')
-                .find({productId : _id})
+                .find({_id : _id})
                 .toArray();
         }
         catch(e){
@@ -72,7 +72,7 @@ class productsDataProcessor{
         }
     }
 
-    async putProduct(product) {
+    async putProduct(_id, product) {
         try {
             return await mongoDBService.db.collection('products').replaceOne({_id : _id}, product, { upsert: true });
         }

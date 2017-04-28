@@ -9,24 +9,28 @@ class productsProcessor{
         return await productsDataProcessor.postProducts(products);
     }
 
-    async deleteProducts(productIds){
-        return [];
+    async putProducts(products){
+        return await productsDataProcessor.putProducts(products);
     }
 
-    async getProduct(id) {
-        return await productsDataProcessor.getProduct(id);
+    async deleteProducts(_ids){
+        return await productsDataProcessor.deleteProducts(_ids);
+    }
+
+    async getProduct(_id) {
+        return await productsDataProcessor.getProduct(_id);
     }
 
     async postProduct(product) {
         return await productsDataProcessor.postProduct(product);
     }
 
-    async putProduct(product) {
-        return await productsDataProcessor.putProduct(product);
+    async putProduct(_id, product) {
+        return await productsDataProcessor.putProduct(_id, product);
     }
 
-    async deleteProduct(id) {
-        return [];
+    async deleteProduct(_id) {
+        return await productsDataProcessor.deleteProduct(_id);
     }
 }
 

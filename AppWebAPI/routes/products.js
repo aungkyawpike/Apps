@@ -11,34 +11,32 @@ router.route('/')
         var result = await productService.getProducts();
         res.json(result);
     })
-    /*.post(
-        upload.array('photos', 12),
-        async (req, res, next) => {
+    .post(async (req, res, next) => {
         res.json(await productService.postProducts(req.body.products));
-    })*/
-    .delete(function(req, res, next) {
-        res.json({message: 'DELETE api/products'});
+    })
+    .put(async (req, res, next) => {
+        res.json(await productService.putProducts(req.body.products));
+    })
+    .delete(async(req, res, next) => {
+        res.json(await productService.deleteProducts(req.body._ids));
     });
 
 // api/products:productId
-router.route('/:productId')
-    .get(function(req, res, next) {
-        res.json({message: 'GET api/products:productId - ' + req.params.productId});
+router.route('/:_id')
+    .get(async (req, res, next) => {
+        var result = await productService.getProduct(parseInt(req.params._id));
+        res.json(result);
     })
     .post(
         upload.array('photos', 12),
         async (req, res, next) => {
-            res.json(await productService.postProduct(req.body.product));
-        }
-    )
-    .put(
-        upload.array('photos', 12),
-        async (req, res, next) => {
-            res.json(await productService.postProduct(req.body.product));
-        }
-    )
-    .delete(function(req, res, next) {
-        res.json({message: 'DELETE api/products:productId - '+ req.params.productId});
+        res.json(await productService.postProduct(req.body.product));
+    })
+    .put(async (req, res, next) => {
+        res.json(await productService.putProduct(parseInt(req.params._id),req.body.product));
+    })
+    .delete(async (req, res, next) => {
+        res.json(await productService.deleteProduct(parseInt(req.body._id)));
     });
 
 module.exports = router;
