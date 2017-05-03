@@ -28,15 +28,15 @@ router.route('/:_id')
         res.json(result);
     })
     .post(
-        upload.array('photos', 12),
+        upload.array('photos',12),
         async (req, res, next) => {
-        res.json(await productService.postProduct(req.body.product));
+            res.json(await productService.postProduct({productName : req.body.productName, photos: req.files }));
     })
     .put(async (req, res, next) => {
         res.json(await productService.putProduct(parseInt(req.params._id),req.body.product));
     })
     .delete(async (req, res, next) => {
-        res.json(await productService.deleteProduct(parseInt(req.body._id)));
+        res.json(await productService.deleteProduct(parseInt(req.params._id)));
     });
 
 module.exports = router;

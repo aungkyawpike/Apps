@@ -2,6 +2,7 @@ var mongoClient = require('mongodb').MongoClient;
 var multer  = require('multer');
 var gridfs = require('multer-gridfs-storage');
 var path = require('path');
+var crypto = require('crypto');
 
 class MongoDBService {
 
@@ -27,7 +28,9 @@ class MongoDBService {
                 cb(null, Math.floor(Math.random() * 1000000));
             },
             filename: function(req, file, cb) {
-                cb(err, err ? undefined : req.body.product._id + path.extname(file.originalname));
+                crypto.randomBytes(16, function (err, raw) {
+                    cb(err, err ? undefined : raw.toString('hex') + path.extname(file.originalname));
+                });
             },
             metadata: function(req, file, cb) {
                 cb(null, req.body);

@@ -31,7 +31,7 @@ class productsManager {
     }
 
     async deleteProduct(_id) {
-        return await productsDataProcessor.deleteProduct(_id);
+        return await productsProcessor.deleteProduct(_id);
     }
 }
 
