@@ -7,7 +7,6 @@
     "watch": "SET NODE_ENV=development && webpack -d --watch  --color",
     "build": "webpack --config webpack.production.config.js --progress --profile --colors",
     "start": "webpack-dev-server --progress --profile --colors",
-    "lint": "eslint --ext js --ext jsx src || exit 0",
     "test": "mocha src/test/**/*.js --timeout 100000",
     "e2e": "node nightwatch.js src/test"
   },
