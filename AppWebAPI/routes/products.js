@@ -1,9 +1,11 @@
 var express = require('express');
+var cors = require('cors')
 var router = express.Router();
 var multer  = require('multer');
 var productService = require('../modules/products/productsService');
 var storeManager = require('../services/StoreManager');
 var upload = storeManager.dbService.upload;
+router.use(cors());
 
 // api/products
 router.route('/')
@@ -28,7 +30,7 @@ router.route('/:_id')
         res.json(result);
     })
     .post(
-        upload.array('photos',12),
+        //upload.array('photos',12),
         async (req, res, next) => {
             res.json(await productService.postProduct({productName : req.body.productName, photos: req.files }));
     })

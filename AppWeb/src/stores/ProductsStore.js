@@ -25,7 +25,7 @@ class ProductsStore extends EventEmitter {
 	}
 
 	getProductsFromService = (requestObj) => {
-		//util.getServerData("getProducts",requestObj,this.recievedProducts)
+		//util.accessServerData("getProducts",requestObj,this.recievedProducts,'post')
 		var responseProducts =
 			[
 				{

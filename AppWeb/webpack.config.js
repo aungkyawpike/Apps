@@ -49,9 +49,9 @@ module.exports = {
 		historyApiFallback: true,
 		port: PORT,
 		host: HOST,
-		/*proxy: {
-		 "**" : "http://localhost:57772"
-		 }*/
+		proxy: {
+		 "**" : "http://localhost:3000"
+		 }
 	},
 	plugins: [
 		new webpack.NoErrorsPlugin(),

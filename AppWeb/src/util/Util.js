@@ -1,15 +1,15 @@
 import $ from "jquery"
 
-export function getServerData(actionName, parameter, callBack) {
+export function accessServerData(actionName, parameter, callBack, type) {
 
 	$.ajax({
 		url: actionName,
-		data: JSON.stringify(parameter),
+		data: parameter,
 		async: true,
 		dataType: "json",
 		traditional: true,
 		contentType: 'application/json; charset=UTF-8',
-		type: "POST",
+		type: type,
 		success: function(result) {
 			var ret
 			ret = result;
@@ -20,7 +20,27 @@ export function getServerData(actionName, parameter, callBack) {
 		}
 	})
 
-	var parameter = {}
+	return
+}
+
+export function postFormToServer(actionName, formData, callBack) {
+
+	$.ajax({
+		url: actionName,
+		data: formData,
+		cache : false,
+		contentType : false,
+		processData : false,
+		type: "POST",
+		success: function(result) {
+			var ret
+			ret = result;
+			return callBack(ret);
+		},
+		error: function(errorThrown) {
+			return false;
+		}
+	})
 
 	return
 }
