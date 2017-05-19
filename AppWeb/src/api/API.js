@@ -15,7 +15,7 @@ export function accessServerData(actionName, parameter, callBack, type) {
 			ret = result;
 			return callBack(ret);
 		},
-		error: function(errorThrown) {
+		error: function(error) {
 			return false;
 		}
 	})
@@ -25,22 +25,23 @@ export function accessServerData(actionName, parameter, callBack, type) {
 
 export function postFormToServer(actionName, formData, callBack) {
 
-	$.ajax({
-		url: actionName,
-		data: formData,
-		cache : false,
-		contentType : false,
-		processData : false,
-		type: "POST",
-		success: function(result) {
-			var ret
-			ret = result;
-			return callBack(ret);
-		},
-		error: function(errorThrown) {
-			return false;
+	return new Promise( function(resolve, reject) {
+			$.ajax({
+				url: actionName,
+				data: formData,
+				cache: false,
+				contentType: false,
+				processData: false,
+				type: "POST",
+				success: function (result) {
+					resolve(result)
+				},
+				error: function (error) {
+					reject(error)
+				}
+			})
 		}
-	})
+	)
 
 	return
 }

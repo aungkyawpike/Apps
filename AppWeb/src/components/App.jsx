@@ -3,13 +3,13 @@ import {render} from "react-dom"
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import {deepOrange400} from 'material-ui/styles/colors'
+import {grey50} from 'material-ui/styles/colors'
 import AppsBar from '../components/AppsBar'
 import PlatformsMenu from '../components/PlatformsMenu'
 
 const appTheme = getMuiTheme({
 	palette: {
-		primary1Color: deepOrange400,
+		primary1Color: grey50,
 		fontFamily: 'Roboto, sans-serif'
 	}
 });

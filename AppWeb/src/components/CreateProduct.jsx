@@ -6,7 +6,7 @@ import * as actions from '../actions/Actions'
 import Category from './Category'
 import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
 import validate from 'validate.js'
-import * as util from "../util/Util"
+import * as api from "../api/API"
 const Dragger = Upload.Dragger
 const FormItem = Form.Item;
 
@@ -25,24 +25,6 @@ class CreateProduct extends React.Component {
 			email: '',
 			phone: '',
 			address: ''
-		}
-
-		this.uploadProps = {
-			name: 'file',
-			multiple: true,
-			showUploadList: false,
-			action: '',
-			onChange(info) {
-				const status = info.file.status;
-				if (status !== 'uploading') {
-					console.log(info.file, info.fileList);
-				}
-				if (status === 'done') {
-					message.success(`${info.file.name} file uploaded successfully.`);
-				} else if (status === 'error') {
-					message.error(`${info.file.name} file upload failed.`);
-				}
-			}
 		}
 	}
 
@@ -111,14 +93,17 @@ class CreateProduct extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		this.props.form.validateFields((err, values) => {
+		this.props.form.validateFields(async (err, formValues) => {
 			if (!err) {
-				console.log('Received values of form: ', values);
+				console.log('Received values of form: ', formValues);
 				var formData = new FormData();
-				formData.append('productName', 'eerew');
-				util.postFormToServer('http://localhost:3000/api/products/3', formData,(result) => {
-					console.log('result: ', result);
-				})
+				for(let key in formValues) {
+					formData.append(key, formValues[key]);
+				}
+				const photos = this.photos.refs.input.files[0];
+				formData.set('photos',photos)
+				var result = await api.postFormToServer('http://localhost:3000/api/products/0', formData);
+				console.log('Received values of server: ', result);
 				return;
 			}
 		});
@@ -129,7 +114,7 @@ class CreateProduct extends React.Component {
 		const conditionError = isFieldTouched('condition') && getFieldError('condition');
 		const titleError = isFieldTouched('title') && getFieldError('title');
 		const descriptionError = isFieldTouched('description') && getFieldError('description');
-		const priceTypeError = isFieldTouched('price') && getFieldError('priceType');
+		const priceTypeError = isFieldTouched('priceType') && getFieldError('priceType');
 		const priceError = isFieldTouched('price') && getFieldError('price');
 		const nameError = isFieldTouched('name') && getFieldError('name');
 		const emailError = isFieldTouched('email') && getFieldError('email');
@@ -183,38 +168,31 @@ class CreateProduct extends React.Component {
 								<FormItem validateStatus={descriptionError ? 'error' : ''} help={descriptionError || ''}>
 									{getFieldDecorator('description', {
 										rules: [
-											{ required: true, message: 'Please add description' },
-										],
+											{ required: true, message: 'Please add description' }
+										]
 									})(
 											<Input type="textarea" onChange={this.handleDescriptionChange}/>
 									)}
 								</FormItem>
 							</Col>
 						</Row>
-						{/*<Row>
+						<Row>
 							<Col xs={6} sm={6} md={2} lg={2}>
 								<div>Images</div>
 							</Col>
 							<Col xs={12} sm={12} md={12} lg={12}>
 								<div style={{ marginTop: 16, height: 180 }}>
 									<FormItem>
-										{getFieldDecorator('photos', {
-											rules: [
-												{ required: true, message: 'Please add photos' },
-											],
-										})(
-											<Dragger {...this.uploadProps}>
-												<p className="ant-upload-drag-icon">
-													<Icon type="inbox" />
-												</p>
-												<p className="ant-upload-text">Click or drag file to this area to upload</p>
-												<p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
-											</Dragger>
+										{getFieldDecorator('photos')(
+											<Input
+												type='file' label='Upload'
+												ref={(ref) => this.photos = ref}
+											/>
 										)}
 									</FormItem>
 								</div>
 							</Col>
-						</Row>*/}
+						</Row>
 						<Row>
 							<Col xs={6} sm={6} md={2} lg={2}>
 								<div>Price</div>

@@ -1,6 +1,6 @@
 import {EventEmitter} from "events"
 import dispatcher from "../dispatcher/dispatcher"
-import * as util from "../util/Util"
+import * as api from "../api/API"
 
 class ProductsStore extends EventEmitter {
 

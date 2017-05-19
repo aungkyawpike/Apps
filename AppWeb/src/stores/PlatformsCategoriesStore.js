@@ -2,7 +2,7 @@ import React from "react"
 import {EventEmitter} from "events"
 import dispatcher from "../dispatcher/dispatcher"
 import * as actions from '../actions/Actions'
-import * as util from "../util/Util"
+import * as api from "../api/API"
 
 class PlatformsCategoriesStore extends EventEmitter {
 
@@ -23,7 +23,7 @@ class PlatformsCategoriesStore extends EventEmitter {
 	}
 
 	getPlatformsCategoriesFromService = (requestObj) => {
-		//util.getServerData("getPlatformsCategories",requestObj,this.recievedPlatformsCategories)
+		//api.getServerData("getPlatformsCategories",requestObj,this.recievedPlatformsCategories)
 		var responsePlatformsCategories = {
 			product: [
 				{
