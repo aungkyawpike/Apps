@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "prod": "node ./bin/www",
+    "debug": "node --inspect ./bin/www",
     "watch": "nodemon --watch app.js --watch routes ./bin/www",
     "test": "mocha test/**/*.js --timeout 100000"
   },
