@@ -91,14 +91,6 @@ class CreateProduct extends React.Component {
 		});
 	}
 
-	normFile = (e) => {
-		console.log('Upload event:', e);
-		if (Array.isArray(e)) {
-			return e;
-		}
-		return e && e.fileList;
-	}
-
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields(async (err, formValues) => {
@@ -132,27 +124,6 @@ class CreateProduct extends React.Component {
 		return (
 				<Form onSubmit={this.handleSubmit}>
 					<div>
-						<Row>
-							<Col xs={6} sm={6} md={2} lg={2}>
-								<div>Images</div>
-							</Col>
-							<Col xs={12} sm={12} md={12} lg={12}>
-								<div style={{ marginTop: 16, height: 180 }}>
-									<FormItem	label="Upload">
-										{getFieldDecorator('files', {
-											valuePropName: 'fileList',
-											getValueFromEvent: this.normFile,
-										})(
-											<Upload name="photos" action="http://localhost:3000/api/products/upload/0" multiple={true} listType="picture">
-												<Button>
-													<Icon type="upload" /> Click to upload
-												</Button>
-											</Upload>
-										)}
-									</FormItem>
-								</div>
-							</Col>
-						</Row>
 						<Row>
 							<Col xs={6} sm={6} md={2} lg={2}>
 								<div>Condition</div>
@@ -203,6 +174,23 @@ class CreateProduct extends React.Component {
 											<Input type="textarea" onChange={this.handleDescriptionChange}/>
 									)}
 								</FormItem>
+							</Col>
+						</Row>
+						<Row>
+							<Col xs={6} sm={6} md={2} lg={2}>
+								<div>Images</div>
+							</Col>
+							<Col xs={12} sm={12} md={12} lg={12}>
+								<div style={{ marginTop: 16, height: 180 }}>
+									<FormItem>
+										{getFieldDecorator('photos')(
+											<Input
+												type='file' label='Upload'
+												ref={(ref) => this.photos = ref}
+											/>
+										)}
+									</FormItem>
+								</div>
 							</Col>
 						</Row>
 						<Row>

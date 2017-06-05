@@ -33,6 +33,11 @@ class productsManager {
     async deleteProduct(_id) {
         return await productsProcessor.deleteProduct(_id);
     }
+
+    async getUploadFileStream(filename, res) {
+        return await productsProcessor.getUploadFileStream(filename, res);
+    }
+
 }
 
 module.exports = new productsManager();

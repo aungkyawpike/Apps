@@ -29,16 +29,25 @@ router.route('/:_id')
         var result = await productService.getProduct(parseInt(req.params._id));
         res.json(result);
     })
-    .post(
-        upload.array('photos',12),
-        async (req, res, next) => {
-            res.json(await productService.postProduct({product : req.body, photos: req.files }));
+    .post(async (req, res, next) => {
+        res.json(await productService.postProduct({product : req.body, photos: req.files }));
     })
     .put(async (req, res, next) => {
         res.json(await productService.putProduct(parseInt(req.params._id),req.body.product));
     })
-    .delete(async (req, res, next) => {
+        .delete(async (req, res, next) => {
         res.json(await productService.deleteProduct(parseInt(req.params._id)));
+    });
+
+// api/products/upload/:filename
+router.route('/upload/:filename')
+    .get(async (req, res, next) => {
+        return await productService.getUploadFileStream(req.params.filename, res);
+    })
+    .post(
+        upload.array('files',12),
+        async (req, res, next) => {
+            res.json(req.files);
     });
 
 module.exports = router;

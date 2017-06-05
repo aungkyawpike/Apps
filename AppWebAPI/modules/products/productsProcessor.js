@@ -32,6 +32,10 @@ class productsProcessor{
     async deleteProduct(_id) {
         return await productsDataProcessor.deleteProduct(_id);
     }
+
+    async getUploadFileStream(filename, res) {
+        return await productsDataProcessor.getUploadFileStream(filename, res);
+    }
 }
 
 module.exports = new productsProcessor();

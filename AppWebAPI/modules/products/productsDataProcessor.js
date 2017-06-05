@@ -91,6 +91,23 @@ class productsDataProcessor{
             return e;
         }
     }
+
+    async getUploadFileStream(filename, res) {
+        try {
+            var files = await mongoDBService.gfs.files.find({filename: filename}).toArray();
+            if (files.length > 0) {
+                var mime = 'image/jpeg';
+                res.set('Content-Type', mime);
+                var read_stream = mongoDBService.gfs.createReadStream({filename: filename});
+                return read_stream.pipe(res);
+            }
+        }
+        catch (e) {
+            console.log(e);
+            return e;
+        }
+    }
+
 }
 
 module.exports = new productsDataProcessor();
