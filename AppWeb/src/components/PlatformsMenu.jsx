@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, hashHistory } from 'react-router'
+import { Link } from "react-router-dom"
 import ProductCriteriaPanel from './ProductsCriteriaPanel'
 import { Menu, Icon } from 'antd'
 import * as actions from '../actions/Actions'
@@ -11,30 +11,26 @@ export default class PlatformsMenu extends React.Component {
 		actions.getPlatformsCategoriesFromService()
 	}
 
-	componentWillMount = () => {
-		hashHistory.push("/productscriteriapanel")
-	}
-
 	render() {
 		return (
 			<Menu mode="horizontal">
 				<Menu.Item>
-					<Link to="/productscriteriapanel">Product</Link>
+					<Link to="/app/productscriteriapanel">Product</Link>
 				</Menu.Item>
 				<Menu.Item>
-					<Link to="/servicescriteriapanel">Service</Link>
+					<Link to="/app/servicescriteriapanel">Service</Link>
 				</Menu.Item>
 				<Menu.Item>
-					<Link to="/jobscriteriapanel">Job</Link>
+					<Link to="/app/jobscriteriapanel">Job</Link>
 				</Menu.Item>
 				<Menu.Item>
-					<Link to="/propertiescriteriapanel">Property</Link>
+					<Link to="/app/propertiescriteriapanel">Property</Link>
 				</Menu.Item>
 				<Menu.Item>
-					<Link to="/automobilescriteriapanel">Automobile</Link>
+					<Link to="/app/automobilescriteriapanel">Automobile</Link>
 				</Menu.Item>
 				<Menu.Item>
-					<Link to="/create">Create</Link>
+					<Link to="/app/create">Create</Link>
 				</Menu.Item>
 			</Menu>
 		)

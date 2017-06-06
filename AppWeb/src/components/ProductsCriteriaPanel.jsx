@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, Form, TreeSelect, Input, Row, Col, Select, Button} from 'antd'
 //import 'antd/lib/tree-select/style/css'
-import { hashHistory } from 'react-router'
 import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
 import Category from './Category'
 import * as actions from '../actions/Actions'
@@ -81,7 +80,7 @@ export default class ProductsCriteriaPanel extends React.Component {
 			condition: this.state.condition
 		}
 		actions.getProductsFromService(requestObj)
-		hashHistory.push("/products")
+		this.props.history.push("/products")
 	}
 
 	render() {

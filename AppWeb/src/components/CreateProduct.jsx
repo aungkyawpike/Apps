@@ -26,6 +26,25 @@ class CreateProduct extends React.Component {
 			phone: '',
 			address: ''
 		}
+
+		this.uploadProps = {
+			name: 'files',
+			data: {value:1},
+			multiple: true,
+			listType: "picture-card",
+			action: 'http://localhost:3000/api/products/upload/0',
+			onChange(info) {
+				const status = info.file.status;
+				if (status !== 'uploading') {
+					console.log(info.file, info.fileList);
+				}
+				if (status === 'done') {
+					message.success(`${info.file.name} file uploaded successfully.`);
+				} else if (status === 'error') {
+					message.error(`${info.file.name} file upload failed.`);
+				}
+			},
+		}
 	}
 
 	componentDidMount(){
@@ -138,15 +157,16 @@ class CreateProduct extends React.Component {
 							</Col>
 							<Col xs={12} sm={12} md={12} lg={12}>
 								<div style={{ marginTop: 16, height: 180 }}>
-									<FormItem	label="Upload">
+									<FormItem>
 										{getFieldDecorator('files', {
 											valuePropName: 'fileList',
 											getValueFromEvent: this.normFile,
 										})(
-											<Upload name="photos" action="http://localhost:3000/api/products/upload/0" multiple={true} listType="picture">
-												<Button>
-													<Icon type="upload" /> Click to upload
-												</Button>
+											<Upload {...this.uploadProps}>
+												<div>
+													<Icon type="plus" />
+													<div className="ant-upload-text">Upload</div>
+												</div>
 											</Upload>
 										)}
 									</FormItem>
@@ -294,7 +314,7 @@ class CreateProduct extends React.Component {
 								<FormItem validateStatus={addressError ? 'error' : ''} help={addressError || ''}>
 									{getFieldDecorator('address', {
 										rules: [
-											{ required: true, message: 'Please add email' },
+											{ required: true, message: 'Please add Address' },
 										],
 									})(
 										<Input onChange={this.handleAddressChange}/>
