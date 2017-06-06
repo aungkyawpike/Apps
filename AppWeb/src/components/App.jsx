@@ -16,7 +16,7 @@ import ServiceDetail from '../components/ServiceDetail'
 import Create from '../components/Create'
 import CreateProduct from '../components/CreateProduct'
 import CreateService from '../components/CreateService'
-
+import AddProductPhotos from '../components/AddProductPhotos'
 
 const appTheme = getMuiTheme({
 	palette: {
@@ -29,10 +29,6 @@ export default class App extends React.Component {
 
 	constructor(props) {
 		super(props);
-	}
-
-	componentWillMount = () => {
-		//this.props.history.push("/productscriteriapanel");
 	}
 
 	render() {
@@ -50,6 +46,7 @@ export default class App extends React.Component {
 					<Route path={`${this.props.match.url}/create`} component={Create}/>
 					<Route path={`${this.props.match.url}/createproduct`} component={CreateProduct}/>
 					<Route path={`${this.props.match.url}/createservice`} component={CreateService}/>
+					<Route path={`${this.props.match.url}/addproductphotos`} component={AddProductPhotos}/>
 				</div>
 			</MuiThemeProvider>
 		)

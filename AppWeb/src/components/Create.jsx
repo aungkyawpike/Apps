@@ -66,7 +66,7 @@ export default class Create extends React.Component {
 						/>
 					</Col>
 				</Row>
-				<CreateProduct/>
+				<CreateProduct {...this.props}/>
 			</div>
 		)
 	}

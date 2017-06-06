@@ -1,6 +1,5 @@
 import React from 'react'
 import {Form, Select,Input,Radio,Upload,Icon,message,Row,Col,Button} from 'antd'
-import { hashHistory } from 'react-router'
 import ProductsStore from "../stores/ProductsStore"
 import * as actions from '../actions/Actions'
 import Category from './Category'
@@ -26,30 +25,10 @@ class CreateProduct extends React.Component {
 			phone: '',
 			address: ''
 		}
-
-		this.uploadProps = {
-			name: 'files',
-			data: {value:1},
-			multiple: true,
-			listType: "picture-card",
-			action: 'http://localhost:3000/api/products/upload/0',
-			onChange(info) {
-				const status = info.file.status;
-				if (status !== 'uploading') {
-					console.log(info.file, info.fileList);
-				}
-				if (status === 'done') {
-					message.success(`${info.file.name} file uploaded successfully.`);
-				} else if (status === 'error') {
-					message.error(`${info.file.name} file upload failed.`);
-				}
-			},
-		}
 	}
 
 	componentDidMount(){
-		// To disabled submit button at the beginning.
-		this.props.form.validateFields();
+		this.props.form.validateFields();// To disabled submit button at the beginning.
 	}
 
 	 hasErrors = (fieldsError) => {
@@ -110,15 +89,8 @@ class CreateProduct extends React.Component {
 		});
 	}
 
-	normFile = (e) => {
-		console.log('Upload event:', e);
-		if (Array.isArray(e)) {
-			return e;
-		}
-		return e && e.fileList;
-	}
-
 	handleSubmit = (e) => {
+		var createProduct = this;
 		e.preventDefault();
 		this.props.form.validateFields(async (err, formValues) => {
 			if (!err) {
@@ -127,11 +99,9 @@ class CreateProduct extends React.Component {
 				for(let key in formValues) {
 					formData.append(key, formValues[key]);
 				}
-				const photos = this.photos.refs.input.files[0];
-				formData.set('photos',photos)
 				var result = await api.postFormToServer('http://localhost:3000/api/products/0', formData);
 				console.log('Received values of server: ', result);
-				return;
+				createProduct.props.history.push('/app/addproductphotos',result);
 			}
 		});
 	}
@@ -151,28 +121,6 @@ class CreateProduct extends React.Component {
 		return (
 				<Form onSubmit={this.handleSubmit}>
 					<div>
-						<Row>
-							<Col xs={6} sm={6} md={2} lg={2}>
-								<div>Images</div>
-							</Col>
-							<Col xs={12} sm={12} md={12} lg={12}>
-								<div style={{ marginTop: 16, height: 180 }}>
-									<FormItem>
-										{getFieldDecorator('files', {
-											valuePropName: 'fileList',
-											getValueFromEvent: this.normFile,
-										})(
-											<Upload {...this.uploadProps}>
-												<div>
-													<Icon type="plus" />
-													<div className="ant-upload-text">Upload</div>
-												</div>
-											</Upload>
-										)}
-									</FormItem>
-								</div>
-							</Col>
-						</Row>
 						<Row>
 							<Col xs={6} sm={6} md={2} lg={2}>
 								<div>Condition</div>

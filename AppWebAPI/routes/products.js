@@ -14,10 +14,10 @@ router.route('/')
         res.json(result);
     })
     .post(async (req, res, next) => {
-        res.json(await productService.postProducts(req.body.products));
+        res.json(await productService.postProducts(req.body));
     })
     .put(async (req, res, next) => {
-        res.json(await productService.putProducts(req.body.products));
+        res.json(await productService.putProducts(req.body));
     })
     .delete(async(req, res, next) => {
         res.json(await productService.deleteProducts(req.body._ids));
@@ -30,10 +30,10 @@ router.route('/:_id')
         res.json(result);
     })
     .post(async (req, res, next) => {
-        res.json(await productService.postProduct({product : req.body, photos: req.files }));
+        res.json(await productService.postProduct(req.body));
     })
     .put(async (req, res, next) => {
-        res.json(await productService.putProduct(parseInt(req.params._id),req.body.product));
+        res.json(await productService.putProduct(parseInt(req.params._id),req.body));
     })
         .delete(async (req, res, next) => {
         res.json(await productService.deleteProduct(parseInt(req.params._id)));

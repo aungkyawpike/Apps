@@ -11,9 +11,7 @@ export function accessServerData(actionName, parameter, callBack, type) {
 		contentType: 'application/json; charset=UTF-8',
 		type: type,
 		success: function(result) {
-			var ret
-			ret = result;
-			return callBack(ret);
+			return callBack(result);
 		},
 		error: function(error) {
 			return false;
@@ -23,7 +21,30 @@ export function accessServerData(actionName, parameter, callBack, type) {
 	return
 }
 
-export function postFormToServer(actionName, formData, callBack) {
+export function accessServerDataAsync(actionName, parameter, type) {
+
+	return new Promise( function(resolve, reject) {
+		$.ajax({
+			url: actionName,
+			data: parameter,
+			async: true,
+			dataType: "json",
+			traditional: true,
+			contentType: 'application/json; charset=UTF-8',
+			type: type,
+			success: function (result) {
+				resolve(result)
+			},
+			error: function (error) {
+				reject(error)
+			}
+		})
+	})
+
+	return
+}
+
+export function postFormToServer(actionName, formData) {
 
 	return new Promise( function(resolve, reject) {
 			$.ajax({
