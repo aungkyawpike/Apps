@@ -27,8 +27,12 @@ storeManager.start().then(()=> {
     app.use(cookieParser());
     app.use(express.static(path.join(__dirname, 'public')));
 
-    app.use('/', index);
-    app.use('/users', users);
+    app.get('/app/*', function (request, response){ // to serve react index.html file when browser reload
+        response.sendFile(path.resolve(__dirname, 'public/app', 'index.html'))
+    })
+
+    //app.use('/', index);
+    //app.use('/users', users);
     app.use('/api/products', products);
 
     // catch 404 and forward to error handler
