@@ -1,12 +1,21 @@
 var mongoDBService = require('../../services/mongodbService/mongodbService');
+var ObjectID = require('mongodb').ObjectID;
 
 class productsDataProcessor{
 
-    async getProducts(){
+    async getProducts(_ids){
         try {
-            return await mongoDBService.db.collection('products')
-                .find()
-                .toArray();
+            if(_ids && _ids.length === 0) { //get all
+                return await mongoDBService.db.collection('products')
+                    .find()
+                    .toArray();
+            }
+            else{
+                const obj_ids = _ids.map(function(_id) { return ObjectID(_id); });
+                return mongoDBService.db.collection('products')
+                                        .find({_id: {$in: obj_ids}})
+                                        .toArray();
+            }
         }
         catch(e){
             console.log(e);
@@ -14,9 +23,12 @@ class productsDataProcessor{
         }
     }
 
-    async postProducts(products){
+    async postProducts(product){
         try {
-            return await mongoDBService.db.collection('products').insertMany(products);
+            if(product) {
+                return await mongoDBService.db.collection('products').insertOne(product);
+            }
+            return [];
         }
         catch(e){
             console.log(e);
@@ -27,10 +39,12 @@ class productsDataProcessor{
     async putProducts(products){
         try {
             var responses = []
-            for( var product of products) {
-                var response = await mongoDBService.db.collection('products')
-                    .replaceOne({_id: product._id}, product, {upsert: true});
-                responses.push(response)
+            if(products && products.length > 0) {
+                for (var product of products) {
+                    var response = await mongoDBService.db.collection('products')
+                        .replaceOne({_id: product._id}, product, {upsert: true});
+                    responses.push(response)
+                }
             }
             return responses
         }
@@ -42,65 +56,28 @@ class productsDataProcessor{
 
     async deleteProducts(_ids){
         try {
-            return await mongoDBService.db.collection('products').remove({_id : {'$in':_ids}});
-        }
-        catch(e){
-            console.log(e);
-            return e;
-        }
-    }
-
-    async getProduct(_id) {
-        try {
-            return await mongoDBService.db.collection('products')
-                .find({_id : _id})
-                .toArray();
-        }
-        catch(e){
-            console.log(e);
-            return e;
-        }
-    }
-
-    async postProduct(product) {
-        try {
-            return await mongoDBService.db.collection('products').insertOne(product);
-        }
-        catch(e){
-            console.log(e);
-            return e;
-        }
-    }
-
-    async putProduct(_id, product) {
-        try {
-            return await mongoDBService.db.collection('products').replaceOne({_id : _id}, product, { upsert: true });
-        }
-        catch(e){
-            console.log(e);
-            return e;
-        }
-    }
-
-    async deleteProduct(_id) {
-        try {
-            return await mongoDBService.db.collection('products').deleteOne({_id : _id});
-        }
-        catch(e){
-            console.log(e);
-            return e;
-        }
-    }
-
-    async getUploadFileStream(filename, res) {
-        try {
-            var files = await mongoDBService.gfs.files.find({filename: filename}).toArray();
-            if (files.length > 0) {
-                var mime = 'image/jpeg';
-                res.set('Content-Type', mime);
-                var read_stream = mongoDBService.gfs.createReadStream({filename: filename});
-                return read_stream.pipe(res);
+            if(ids && _ids.length === 0) {
+                return await mongoDBService.db.collection('products').remove({_id: {'$in': _ids}});
             }
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    async getUploadFileStream(filenames, res) {
+        try {
+            if(filename && res) {
+                var files = await mongoDBService.gfs.files.find({filename: {$in: filenames}}).toArray();
+                if (files.length > 0) {
+                    var mime = 'image/jpeg';
+                    res.set('Content-Type', mime);
+                    var read_stream = mongoDBService.gfs.createReadStream({filename: filename});
+                    return read_stream.pipe(res);
+                }
+            }
+            return null;
         }
         catch (e) {
             console.log(e);

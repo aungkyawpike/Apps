@@ -43,7 +43,7 @@ class MongoDBService {
                     });
                 },
                 metadata: function (req, file, cb) {
-                    cb(null, req.body);
+                    cb(null, JSON.parse(JSON.stringify(req.body)));
                 },
                 log: function (err, log) {
                     if (err) {

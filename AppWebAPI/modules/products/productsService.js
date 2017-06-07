@@ -2,12 +2,12 @@ var productsManager = require('./productsManager');
 
 class productsService{
 
-    async getProducts(){
-        return await productsManager.getProducts();
+    async getProducts(_ids){
+        return await productsManager.getProducts(_ids);
     }
 
-    async postProducts(products){
-        return await productsManager.postProducts(products);
+    async postProducts(product){
+        return await productsManager.postProducts(product);
     }
 
     async putProducts(products){
@@ -18,24 +18,8 @@ class productsService{
         return await productsManager.deleteProducts(_ids);
     }
 
-    async getProduct(_id){
-        return await productsManager.getProduct(_id);
-    }
-
-    async postProduct(product){
-        return await productsManager.postProduct(product);
-    }
-
-    async putProduct(_id, product){
-        return await productsManager.putProduct(_id, product);
-    }
-
-    async deleteProduct(_id) {
-        return await productsManager.deleteProduct(_id);
-    }
-
-    async getUploadFileStream(filename,res) {
-        return await productsManager.getUploadFileStream(filename, res);
+    async getUploadFileStream(filenames,res) {
+        return await productsManager.getUploadFileStream(filenames, res);
     }
 }
 

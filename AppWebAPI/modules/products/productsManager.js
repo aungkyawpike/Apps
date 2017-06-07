@@ -2,12 +2,12 @@ var productsProcessor = require('./productsProcessor');
 
 class productsManager {
 
-    async getProducts() {
-        return await productsProcessor.getProducts();
+    async getProducts(_ids) {
+        return await productsProcessor.getProducts(_ids);
     }
 
-    async postProducts(products) {
-        return await productsProcessor.postProducts(products);
+    async postProducts(product) {
+        return await productsProcessor.postProducts(product);
     }
 
     async putProducts(products){
@@ -18,24 +18,8 @@ class productsManager {
         return await productsProcessor.deleteProducts(_ids);
     }
 
-    async getProduct(_id) {
-        return await productsProcessor.getProduct(_id);
-    }
-
-    async postProduct(product) {
-        return await productsProcessor.postProduct(product);
-    }
-
-    async putProduct(_id, product) {
-        return await productsProcessor.putProduct(_id, product);
-    }
-
-    async deleteProduct(_id) {
-        return await productsProcessor.deleteProduct(_id);
-    }
-
-    async getUploadFileStream(filename, res) {
-        return await productsProcessor.getUploadFileStream(filename, res);
+    async getUploadFileStream(filenames, res) {
+        return await productsProcessor.getUploadFileStream(filenames, res);
     }
 
 }

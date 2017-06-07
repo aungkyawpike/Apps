@@ -13,11 +13,9 @@ router.route('/')
         var result = await productService.getProducts(req.params);
         res.json(result);
     })
-    .post( // single post
+    .post(async (req, res, next) => {
         upload.array('files',12),
-        async (req, res, next) => {
-            delete req.files.metada;
-            res.json(await productService.postProducts(req.body));
+        res.json(await productService.postProducts(req.body));
     })
     .put(async (req, res, next) => {
         res.json(await productService.putProducts(req.body));
@@ -26,10 +24,22 @@ router.route('/')
         res.json(await productService.deleteProducts(req.body));
     });
 
-// api/products/upload/:filenames
-router.route('/upload/:filenames')
+// api/products:productId
+/*router.route('/:_id')
     .get(async (req, res, next) => {
-        return await productService.getUploadFileStream(req.params.filename, res);
+        var result = await productService.getProduct(parseInt(req.params._id));
+        res.json(result);
     })
+   .post(
+        upload.array('files',12),
+        async (req, res, next) => {
+        res.json(await productService.postProduct(req.body));
+    })
+    .put(async (req, res, next) => {
+        res.json(await productService.putProduct(parseInt(req.params._id),req.body));
+    })
+        .delete(async (req, res, next) => {
+        res.json(await productService.deleteProduct(parseInt(req.params._id)));
+    });*/
 
 module.exports = router;
