@@ -13,6 +13,18 @@ export default class AddProductPhotos extends React.Component {
 			multiple: true,
 			listType: "picture-card",
 			action: 'http://localhost:3000/api/products/upload/0',
+			beforeUpload(file) {
+				//return false;
+				const isJPG = file.type === 'image/jpeg';
+				if (!isJPG) {
+					message.error('You can only upload JPG file!');
+				}
+				const isLt2M = file.size / 1024 / 1024 < 2;
+				if (!isLt2M) {
+					message.error('Image must smaller than 2MB!');
+				}
+				return isJPG && isLt2M;
+			},
 			onChange(info) {
 				const status = info.file.status;
 				if (status !== 'uploading') {

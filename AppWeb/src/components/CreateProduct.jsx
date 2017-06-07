@@ -23,7 +23,8 @@ class CreateProduct extends React.Component {
 			name: '',
 			email: '',
 			phone: '',
-			address: ''
+			address: '',
+			files : []
 		}
 	}
 
@@ -89,6 +90,12 @@ class CreateProduct extends React.Component {
 		});
 	}
 
+	handleFilesChange = (event) => {
+		this.setState({
+			files : event.target.files
+		});
+	}
+
 	handleSubmit = (e) => {
 		var createProduct = this;
 		e.preventDefault();
@@ -96,12 +103,20 @@ class CreateProduct extends React.Component {
 			if (!err) {
 				console.log('Received values of form: ', formValues);
 				var formData = new FormData();
+
 				for(let key in formValues) {
 					formData.append(key, formValues[key]);
 				}
+
+				formData.delete("files");
+
+				for(let file of this.state.files){
+					formData.append("files",file, file.name)
+				}
+
 				var result = await api.postFormToServer('http://localhost:3000/api/products/0', formData);
 				console.log('Received values of server: ', result);
-				createProduct.props.history.push('/app/addproductphotos',result);
+				//createProduct.props.history.push('/app/addproductphotos',result);
 			}
 		});
 	}
@@ -121,6 +136,22 @@ class CreateProduct extends React.Component {
 		return (
 				<Form onSubmit={this.handleSubmit}>
 					<div>
+						<Row>
+							<Col xs={6} sm={6} md={2} lg={2}>
+								<div>Images</div>
+							</Col>
+							<Col xs={12} sm={12} md={12} lg={12}>
+								<FormItem>
+									{getFieldDecorator('files' , {
+										rules: [
+											{ required: false, message: 'Please select files' }
+										]})
+										(
+											<Input type="file" multiple onChange={this.handleFilesChange}/>
+										)}
+								</FormItem>
+							</Col>
+						</Row>
 						<Row>
 							<Col xs={6} sm={6} md={2} lg={2}>
 								<div>Condition</div>

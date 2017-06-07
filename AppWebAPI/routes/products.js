@@ -29,7 +29,9 @@ router.route('/:_id')
         var result = await productService.getProduct(parseInt(req.params._id));
         res.json(result);
     })
-    .post(async (req, res, next) => {
+    .post(
+        upload.array('files',12),
+        async (req, res, next) => {
         res.json(await productService.postProduct(req.body));
     })
     .put(async (req, res, next) => {
