@@ -2,10 +2,9 @@ var express = require('express');
 var cors = require('cors')
 var router = express.Router();
 var multer  = require('multer');
-var upload = multer();
 var productService = require('../modules/products/productsService');
 var storeManager = require('../services/StoreManager');
-var uploadGridFS = storeManager.dbService.uploadGridFS;
+var upload = storeManager.dbService.upload;
 router.use(cors());
 
 // api/products
@@ -15,9 +14,9 @@ router.route('/')
         res.json(result);
     })
     .post( // single post
-        upload.array('files', 12),
+        upload.array('files',12),
         async (req, res, next) => {
-            req.body.files = req.files;
+            delete req.files.metada;
             res.json(await productService.postProducts(req.body));
     })
     .put(async (req, res, next) => {

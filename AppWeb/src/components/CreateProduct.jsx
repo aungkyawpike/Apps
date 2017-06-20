@@ -114,7 +114,7 @@ class CreateProduct extends React.Component {
 					formData.append("files",file, file.name)
 				}
 
-				var result = await api.postFormToServer('http://localhost:3000/api/products/0', formData);
+				var result = await api.postFormToServer('http://localhost:3000/api/products/', formData);
 				console.log('Received values of server: ', result);
 				//createProduct.props.history.push('/app/addproductphotos',result);
 			}

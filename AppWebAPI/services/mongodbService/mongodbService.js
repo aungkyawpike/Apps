@@ -12,7 +12,7 @@ class MongoDBService {
         this.dbUrl = 'mongodb://localhost:27017/test';
         this.db = null;
         this.gfs = null;
-        this.upload = null;
+        this.uploadGridFS = null;
     }
 
     async start() {
@@ -53,7 +53,7 @@ class MongoDBService {
                     }
                 }
             });
-            this.upload = multer({storage: storage});
+            this.uploadGridFS = multer({storage: storage});
         }
          catch(err){
              throw err;
