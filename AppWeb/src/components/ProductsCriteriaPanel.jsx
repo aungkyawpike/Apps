@@ -80,7 +80,7 @@ export default class ProductsCriteriaPanel extends React.Component {
 			condition: this.state.condition
 		}
 		actions.getProductsFromService(requestObj)
-		this.props.history.push("/products")
+		this.props.history.push({pathname: `/app/products/`});
 	}
 
 	render() {

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card, Row, Col} from 'antd'
-import { hashHistory } from 'react-router'
 import ProductsStore from "../stores/ProductsStore"
 import * as actions from '../actions/Actions'
 
@@ -22,25 +21,25 @@ export default class Products extends React.Component {
 	}
 
 	onStoreChange = () => {
-		this.state = {
-			products: ProductsStore.getProducts()
-		}
+		this.setState({
+			products: JSON.parse(JSON.stringify(ProductsStore.getProducts()))
+		});
 	}
 
 	handleGoDetail = (id) =>{
-		hashHistory.push("/productdetail/" + id)
+		this.props.history.push({pathname: `/app/productdetail/${id}`});
 	}
 
 	render() {
 		return (
 			<div>
 				<Row id="products" type="flex" justify="start">​
-					{
+					{ this.state.products &&
 						this.state.products.map(product => (
-								<Col xs={24} sm={12} md={8} lg={6} key={product.id} className="product" onClick={()=>this.handleGoDetail(product.id)}>
+								<Col xs={24} sm={12} md={8} lg={6} key={product._id} className="product" onClick={()=>this.handleGoDetail(product._id)}>
 									<Card title={product.name} bordered={false}>
 										<Row>
-											<div><img src={product.images[0]} style={{width:'100%',height:'100%'}}/></div>
+											<div><img src={`data:image/png;base64,${product.files[0].buffer}`} style={{width:'100%',height:'100%'}}/></div>
 										</Row>
 										<Row>
 											<div>{product.description}</div>

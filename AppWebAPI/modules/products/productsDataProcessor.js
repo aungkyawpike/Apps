@@ -3,7 +3,19 @@ var ObjectID = require('mongodb').ObjectID;
 
 class productsDataProcessor{
 
-    async getProducts(_ids){
+    async getProducts(query){
+        try {
+            return await mongoDBService.db.collection('products')
+                .find()
+                .toArray();
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    async getProductsByIds(_ids){
         try {
             if(_ids && _ids.length === 0) { //get all
                 return await mongoDBService.db.collection('products')
@@ -26,7 +38,11 @@ class productsDataProcessor{
     async postProducts(product){
         try {
             if(product) {
-                return await mongoDBService.db.collection('products').insertOne(product);
+                var response= await  mongoDBService.db.collection('products').insertOne(product);
+                return {
+                    insertedId : response.insertedId,
+                    result: response.result
+                };
             }
             return [];
         }

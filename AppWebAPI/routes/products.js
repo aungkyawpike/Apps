@@ -11,7 +11,7 @@ router.use(cors());
 // api/products
 router.route('/')
     .get(async (req, res, next) => {
-        var result = await productService.getProducts(req.params);
+        var result = await productService.getProducts(req.query);
         res.json(result);
     })
     .post( // single post

@@ -96,9 +96,83 @@ class CreateProduct extends React.Component {
 		});
 	}
 
-	handleSubmit = (e) => {
-		var createProduct = this;
+	resizeImage = async (imageFile) => {
+		var reader = new FileReader();
+		var img = await this.loadFile(imageFile);
+		var canvas = document.createElement('canvas');
+		var ctx = canvas.getContext("2d");
+		ctx.drawImage(img, 0, 0);
+
+		var MAX_WIDTH = 200;
+		var MAX_HEIGHT = 150;
+		var width = img.width;
+		var height = img.height;
+
+		if (width > height) {
+			if (width > MAX_WIDTH) {
+				height *= MAX_WIDTH / width;
+				width = MAX_WIDTH;
+			}
+		} else {
+			if (height > MAX_HEIGHT) {
+				width *= MAX_HEIGHT / height;
+				height = MAX_HEIGHT;
+			}
+		}
+		canvas.width = width;
+		canvas.height = height;
+		var ctx = canvas.getContext("2d");
+		ctx.drawImage(img, 0, 0, width, height);
+
+		var dataurl = canvas.toDataURL("image/png");
+
+		return this.dataURLToBlob(dataurl);
+	}
+
+	loadFile = async (imagefile) => {
+		return new Promise((resolve,reject) => {
+			var img = document.createElement("img");
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				try {
+					img.src = e.target.result;
+					resolve(img);
+				}
+				catch(e){
+					reject(e);
+				}
+			}
+			reader.readAsDataURL(imagefile);
+		});
+	}
+
+	dataURLToBlob = (dataURL) => {
+		var BASE64_MARKER = ';base64,';
+		if (dataURL.indexOf(BASE64_MARKER) == -1) {
+			var parts = dataURL.split(',');
+			var contentType = parts[0].split(':')[1];
+			var raw = parts[1];
+
+			return new Blob([raw], {type: contentType});
+		}
+
+		var parts = dataURL.split(BASE64_MARKER);
+		var contentType = parts[0].split(':')[1];
+		var raw = window.atob(parts[1]);
+		var rawLength = raw.length;
+
+		var uInt8Array = new Uint8Array(rawLength);
+
+		for (var i = 0; i < rawLength; ++i) {
+			uInt8Array[i] = raw.charCodeAt(i);
+		}
+
+		return new Blob([uInt8Array], {type: contentType});
+	}
+
+	handleSubmit = async (e) => {
 		e.preventDefault();
+
 		this.props.form.validateFields(async (err, formValues) => {
 			if (!err) {
 				console.log('Received values of form: ', formValues);
@@ -110,13 +184,16 @@ class CreateProduct extends React.Component {
 
 				formData.delete("files");
 
-				for(let file of this.state.files){
-					formData.append("files",file, file.name)
+				for(let image of this.state.files){
+					var resizeImage = await this.resizeImage(image);
+					formData.append("files", resizeImage, image.name)
 				}
 
-				var result = await api.postFormToServer('http://localhost:3000/api/products/', formData);
-				console.log('Received values of server: ', result);
-				//createProduct.props.history.push('/app/addproductphotos',result);
+				var response = await api.postFormToServer('http://localhost:3000/api/products/', formData);
+				if(response.result.ok === 1){
+					this.props.history.push({pathname: `/app/productdetail/${response.insertedId}`});
+				}
+				console.log('Received values of server: ', response);
 			}
 		});
 	}

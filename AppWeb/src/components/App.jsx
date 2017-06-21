@@ -38,7 +38,7 @@ export default class App extends React.Component {
 					<PlatformsMenu/>
 					<Route path={`${this.props.match.url}/productscriteriapanel`} component={ProductsCriteriaPanel}/>
 					<Route path={`${this.props.match.url}/products`} component={Products}/>
-					<Route path={`${this.props.match.url}/productdetail/:id`} component={ProductDetail}/>
+					<Route path={`${this.props.match.url}/productdetail/:_id`} component={ProductDetail}/>
 					<Route path={`${this.props.match.url}/servicescriteriapanel`} component={ServicesCriteriaPanel}/>
 					<Route path={`${this.props.match.url}/services`} component={Services}/>
 					<Route path={`${this.props.match.url}/servicedetail/:id`} component={ServiceDetail}/>
