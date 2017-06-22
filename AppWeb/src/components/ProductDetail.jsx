@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, Row, Col} from 'antd'
 import ProductsStore from "../stores/ProductsStore"
-import * as actions from '../actions/Actions'
+import ApiActionsCreator from '../actionsCreators/ProductApiActionsCreator'
 
 export default class ProductDetail extends React.Component {
 

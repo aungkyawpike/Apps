@@ -10,12 +10,8 @@ import PlatformsMenu from '../components/PlatformsMenu'
 import ProductsCriteriaPanel from '../components/ProductsCriteriaPanel'
 import Products from '../components/Products'
 import ProductDetail from '../components/ProductDetail'
-import ServicesCriteriaPanel from '../components/ServicesCriteriaPanel'
-import Services from '../components/Services'
-import ServiceDetail from '../components/ServiceDetail'
 import Create from '../components/Create'
 import CreateProduct from '../components/CreateProduct'
-import CreateService from '../components/CreateService'
 
 const appTheme = getMuiTheme({
 	palette: {
@@ -39,12 +35,8 @@ export default class App extends React.Component {
 					<Route path={`${this.props.match.url}/productscriteriapanel`} component={ProductsCriteriaPanel}/>
 					<Route path={`${this.props.match.url}/products`} component={Products}/>
 					<Route path={`${this.props.match.url}/productdetail/:_id`} component={ProductDetail}/>
-					<Route path={`${this.props.match.url}/servicescriteriapanel`} component={ServicesCriteriaPanel}/>
-					<Route path={`${this.props.match.url}/services`} component={Services}/>
-					<Route path={`${this.props.match.url}/servicedetail/:id`} component={ServiceDetail}/>
 					<Route path={`${this.props.match.url}/create`} component={Create}/>
 					<Route path={`${this.props.match.url}/createproduct`} component={CreateProduct}/>
-					<Route path={`${this.props.match.url}/createservice`} component={CreateService}/>
 				</div>
 			</MuiThemeProvider>
 		)

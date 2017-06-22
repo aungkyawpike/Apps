@@ -1,7 +1,6 @@
 import React from 'react'
 import {Form, Select,Input,Radio,Upload,Icon,message,Row,Col,Button} from 'antd'
 import ProductsStore from "../stores/ProductsStore"
-import * as actions from '../actions/Actions'
 import Category from './Category'
 import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
 import validate from 'validate.js'

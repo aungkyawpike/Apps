@@ -3,7 +3,8 @@ import { Card, Form, TreeSelect, Input, Row, Col, Select, Button} from 'antd'
 //import 'antd/lib/tree-select/style/css'
 import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
 import Category from './Category'
-import * as actions from '../actions/Actions'
+import ProductApiActionsCreator from '../actionsCreators/ProductApiActionsCreator'
+import PlatformsCategoriesApiActionsCreator from '../actionsCreators/PlatformsCategoriesApiActionsCreator'
 const InputGroup = Input.Group
 const Option = Select.Option
 const FormItem = Form.Item
@@ -21,6 +22,7 @@ export default class ProductsCriteriaPanel extends React.Component {
 			productCategories: PlatformsCategoriesStore.getPlatformsCategories()['product']
 		}
 		this.numberReg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/
+		PlatformsCategoriesApiActionsCreator.getPlatformsCategories();
 	}
 
 	componentWillMount = () => {
@@ -79,7 +81,7 @@ export default class ProductsCriteriaPanel extends React.Component {
 			maxPrice: this.state.maxPrice,
 			condition: this.state.condition
 		}
-		actions.getProductsFromService(requestObj)
+		ProductApiActionsCreator.getProducts(requestObj);
 		this.props.history.push({pathname: `/app/products/`});
 	}
 

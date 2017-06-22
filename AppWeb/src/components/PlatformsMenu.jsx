@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from "react-router-dom"
 import ProductCriteriaPanel from './ProductsCriteriaPanel'
 import { Menu, Icon } from 'antd'
-import * as actions from '../actions/Actions'
+import ApiActionsCreator from '../actionsCreators/PlatformsCategoriesApiActionsCreator'
 
 export default class PlatformsMenu extends React.Component {
 
 	constructor(props) {
-		super(props)
-		actions.getPlatformsCategoriesFromService()
+		super(props);
+		var a = 1;
+		ApiActionsCreator.getPlatformsCategories();
 	}
 
 	render() {

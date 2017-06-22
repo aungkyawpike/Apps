@@ -22,22 +22,13 @@ class ProductsStore extends EventEmitter {
 		this.products.push(product);
 	}
 
-	getProductsFromService = async (requestObj) => {
-		try {
-			this.products = await api.accessServerDataAsync("/api/products", requestObj, 'GET');
-		}
-		catch(e){
-			console.log(e);
-		}
-	}
-
 	handleActions = async (action) => {
-
-		if (action.type === 'GET_PRODUCTS_FROM_SERVICE') {
-			await this.getProductsFromService(action.data);
+		if (action.type === 'RECIEVED_PRODUCTS_FROM_API') {
+			if(action.response.ok){
+				this.products = action.response.data;
+				this.emit('change');
+			}
 		}
-
-		this.emit('change');
 		return true;
 	}
 

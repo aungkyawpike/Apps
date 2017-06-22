@@ -2,7 +2,6 @@ import React from 'react'
 import {Select,Input,Radio,Upload,Icon,message,Row,Col,Button} from 'antd'
 import { hashHistory } from 'react-router'
 import ProductsStore from "../stores/ProductsStore"
-import * as actions from '../actions/Actions'
 import Category from './Category'
 import CreateProduct from'./CreateProduct'
 import PlatformsCategoriesStore from "../stores/PlatformsCategoriesStore"
