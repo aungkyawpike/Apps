@@ -1,0 +1,29 @@
+http://beta.json-generator.com
+
+[
+  {
+    'repeat(5, 10)':{
+      "_id":'{{objectId()}}',
+      "parentCategoriesIds":[
+        {
+          'repeat(3)':'{{integer(0, 31)}}'
+        }
+      ],
+      "categoryId":'{{integer(0, 31)}}',
+      "condition":'{{integer(0, 3)}}',
+      "conditionId":function(tags){
+        return (this.condition + '#' + this._id);
+      },
+      "title":'{{lorem(1, "words")}}',
+      "description":'{{lorem(1, "paragraphs")}}',
+      "saleType":'{{integer(0, 4)}}',
+      "price":'{{integer(0, 10000000000)}}',
+      "priceId":function(tags)            {
+        var s = "00000000000" + (this.price);
+        return s.substr(s.length-11) + '#' + this._id;
+      },
+      "userId":'{{objectId()}}',
+      "createdTimeStamp":'{{date(new Date(2014, 0, 1), new Date()).getTime()}}'
+    }
+  }
+]
