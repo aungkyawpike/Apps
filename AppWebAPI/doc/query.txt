@@ -1,0 +1,23 @@
+db.products.createIndex({condition: 1, parentCategoriesIds:1, price :1})
+
+db.products.createIndex({condition: 1, categoryId:1, price :1})
+
+db.products.find({price: {$lt :9000000000, $gt: 100000000}}).sort({createdTimeStamp:1}).limit(10)
+
+db.products.find({priceId: {$gt:'00636667852#595493da1f473bb5858402ad'}}).limit(10)
+
+db.products.find({condition: 1}).sort({createdTimeStamp:1}).limit(10)
+
+db.products.find({conditionId: {$gt:'3#595493da0b6a9995a4a0e5c5'}}).limit(10)
+
+db.products.find({$and : [{categoryId : 7} ,{price: {$lt :9000000000, $gt: 100000000}}]}).sort({createdTimeStamp:1}).limit(10)
+
+db.products.find({$and : [{parentCategoriesIds : 21} ,{price: {$lt :9000000000, $gt: 100000000}}]}).sort({createdTimeStamp:1}).limit(10).explain("executionStats")
+
+db.products.find({condition: 1,parentCategoriesIds : 25 }).sort({createdTimeStamp:1})
+
+db.products.find({condition: 1,parentCategoriesIds : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({createdTimeStamp:1})
+
+db.products.find({condition: 1,categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({createdTimeStamp:1})
+
+db.products.find({condition: 1,categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({price:-1})
