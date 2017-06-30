@@ -1,23 +1,66 @@
-db.products.createIndex({condition: 1, parentCategoriesIds:1, price :1})
+db.products.update({}, {$unset: {priceId:1}}, false, true);
+
+db.products.update({}, {$set: {priceId:1}}, false, true);
+
+db.products.find().snapshot().forEach(
+    function (elem) {
+        db.products.update(
+            {
+                _id: elem._id
+            },
+            {
+                $set: {
+                    categoryTimeStampId: elem.categoryId + '#' + elem.createdTimeStamp + '#' + elem._id
+                }
+            }
+        );
+    }
+);
+
+db.products.find().snapshot().forEach(
+    function (elem) {
+        var oldId = elem._id;
+        elem._id = ObjectId();
+        db.products.insert(elem)
+        db.products.remove({_id: oldId})
+    }
+);
+
+db.products.createIndex({ categoryId : 1 })
+
+db.products.createIndex({ parentCategoriesIds : 1 })
+
+db.products.find({categoryId : 25 }).sort({createdTimeStamp:1}).explain("executionStats")
+
+db.products.find({categoryTimeStampId: {$gt:'25#2434323243#595493da1f473bb5858402ad'}}).limit(10)
+
+db.products.find({categoryId : 25 }).sort({price:1})
+
+db.products.find({categoryPriceId: {$gt:'25#00636667852#595493da1f473bb5858402ad'}}).limit(10)
+
+
+db.products.createIndex({ categoryId : 1 , price : 1 })
+
+db.products.createIndex({ parentCategoriesIds : 1 , price : 1})
+
+db.products.find({categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({price:1})
+
+db.products.find({categoryPriceId: {$gt:'25#00636667852#595493da1f473bb5858402ad'}}).limit(10)
+
+db.products.find({categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({createdTimeStamp:1})
+
+db.products.find({categoryPriceTimeStampId: {$gt:'25#00636667852#2434323243#595493da1f473bb5858402ad'}}).limit(10)
+
 
 db.products.createIndex({condition: 1, categoryId:1, price :1})
 
-db.products.find({price: {$lt :9000000000, $gt: 100000000}}).sort({createdTimeStamp:1}).limit(10)
+db.products.createIndex({condition: 1, parentCategoriesIds:1, price :1})
 
-db.products.find({priceId: {$gt:'00636667852#595493da1f473bb5858402ad'}}).limit(10)
+db.products.find({condition: 1,categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({price:-1})
 
-db.products.find({condition: 1}).sort({createdTimeStamp:1}).limit(10)
-
-db.products.find({conditionId: {$gt:'3#595493da0b6a9995a4a0e5c5'}}).limit(10)
-
-db.products.find({$and : [{categoryId : 7} ,{price: {$lt :9000000000, $gt: 100000000}}]}).sort({createdTimeStamp:1}).limit(10)
-
-db.products.find({$and : [{parentCategoriesIds : 21} ,{price: {$lt :9000000000, $gt: 100000000}}]}).sort({createdTimeStamp:1}).limit(10).explain("executionStats")
-
-db.products.find({condition: 1,parentCategoriesIds : 25 }).sort({createdTimeStamp:1})
-
-db.products.find({condition: 1,parentCategoriesIds : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({createdTimeStamp:1})
+db.products.find({conditionCategoryPriceId: {$gt:'1#25#00636667852#595493da1f473bb5858402ad'}}).limit(10)
 
 db.products.find({condition: 1,categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({createdTimeStamp:1})
 
-db.products.find({condition: 1,categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({price:-1})
+db.products.find({conditionCategoryPriceTimeStampId: {$gt:'1#25#00636667852#2434323243#595493da1f473bb5858402ad'}}).limit(10)
+
