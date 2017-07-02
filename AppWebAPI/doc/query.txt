@@ -11,7 +11,7 @@ db.products.find().snapshot().forEach(
             {
                 $set: {
                     categoryTimeStampId: elem.categoryId + '#' + elem.createdTimeStamp + '#' + elem._id
-                }
+                }https://gomovies.is/film/okja-21168/watching.html?ep=675036
             }
         );
     }
