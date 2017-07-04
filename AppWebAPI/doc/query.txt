@@ -10,8 +10,8 @@ db.products.find().snapshot().forEach(
             },
             {
                 $set: {
-                    categoryTimeStampId: elem.categoryId + '#' + elem.createdTimeStamp + '#' + elem._id
-                }https://gomovies.is/film/okja-21168/watching.html?ep=675036
+                    categoryDateId: elem.categoryId + '#' + elem.createdTimeStamp + '#' + elem._id
+                }
             }
         );
     }
@@ -26,41 +26,13 @@ db.products.find().snapshot().forEach(
     }
 );
 
-db.products.createIndex({ categoryId : 1 })
+db.products.createIndex({ price :1, category:1 });
+db.products.createIndex({categoryPriceId :1, category: 1});
+db.products.createIndex({categoryDateId :1, category: 1});
 
-db.products.createIndex({ parentCategoriesIds : 1 })
+db.products.find({price: {$lt :99999999999, $gt: 0}, category : 25 , condition: 1}).sort({price:1}).limit(5).explain("executionStats")
+db.products.find({categoryPriceId: {$gt:'25#00000008921#1426519933719#595b6689cd8d233d9b894708'}, category : 25}).limit(5).explain("executionStats")
 
-db.products.find({categoryId : 25 }).sort({createdTimeStamp:1}).explain("executionStats")
-
-db.products.find({categoryTimeStampId: {$gt:'25#2434323243#595493da1f473bb5858402ad'}}).limit(10)
-
-db.products.find({categoryId : 25 }).sort({price:1})
-
-db.products.find({categoryPriceId: {$gt:'25#00636667852#595493da1f473bb5858402ad'}}).limit(10)
-
-
-db.products.createIndex({ categoryId : 1 , price : 1 })
-
-db.products.createIndex({ parentCategoriesIds : 1 , price : 1})
-
-db.products.find({categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({price:1})
-
-db.products.find({categoryPriceId: {$gt:'25#00636667852#595493da1f473bb5858402ad'}}).limit(10)
-
-db.products.find({categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({createdTimeStamp:1})
-
-db.products.find({categoryPriceTimeStampId: {$gt:'25#00636667852#2434323243#595493da1f473bb5858402ad'}}).limit(10)
-
-
-db.products.createIndex({condition: 1, categoryId:1, price :1})
-
-db.products.createIndex({condition: 1, parentCategoriesIds:1, price :1})
-
-db.products.find({condition: 1,categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({price:-1})
-
-db.products.find({conditionCategoryPriceId: {$gt:'1#25#00636667852#595493da1f473bb5858402ad'}}).limit(10)
-
-db.products.find({condition: 1,categoryId : 25 , price: {$lt :9000000000, $gt: 100000000}}).sort({createdTimeStamp:1})
-
-db.products.find({conditionCategoryPriceTimeStampId: {$gt:'1#25#00636667852#2434323243#595493da1f473bb5858402ad'}}).limit(10)
+db.products.find({price: {$lt :99999999999, $gt: 0}, category : 25 , condition: 1}).sort({createdDate:1}).limit(5).explain("executionStats")
+db.products.find({categoryDateId: {$gt:'25#1343594979264#595b7219cd8d233d9b89504f'},category : 25}).limit(5).explain("executionStats") 
 
