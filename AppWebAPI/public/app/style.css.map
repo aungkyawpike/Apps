@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///webpack:///src/styles/index.scss"],"names":[],"mappings":"AAAA;EACE,kBAAkB;CACnB;;AAED;EACE,WAAW;CACZ","file":"style.css","sourcesContent":[".borderRed {\n  border-color: red;\n}\n\n.red {\n  color: red;\n}\n\n\n\n// WEBPACK FOOTER //\n// webpack:///src/styles/index.scss"],"sourceRoot":""}

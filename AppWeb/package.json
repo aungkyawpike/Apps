@@ -30,7 +30,7 @@
     "material-ui": "^0.16.4",
     "moment": "^2.15.1",
     "ms-signalr-client": "^2.2.5",
-    "node-sass": "^3.10.0",
+    "node-sass": "^4.5.3",
     "npm": "^4.0.3",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
@@ -38,7 +38,7 @@
     "react-router-dom": "^4.1.1",
     "react-tap-event-plugin": "^2.0.1",
     "react-toolbox": "^2.0.0-beta.1",
-    "sass-loader": "^4.0.1",
+    "sass-loader": "^6.0.6",
     "script-loader": "^0.7.0",
     "uxcore": "^0.6.1",
     "validate.js": "^0.11.1"

@@ -57,8 +57,16 @@ module.exports = {
 			allChunks: true
 		}),
 		new HtmlWebpackPlugin({
-			template: './src/template.html',
-			title: 'Esport App'
+			template: './src/index.html',
+			files: {
+				css: ['style.css'],
+				js: ["bundle.js"]
+			}
+		}),
+		new webpack.ProvidePlugin({
+			jQuery: 'jquery',
+			$: 'jquery',
+			jquery: 'jquery'
 		}),
 		new webpack.optimize.DedupePlugin()
 	]
