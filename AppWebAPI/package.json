@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "prod": "node ./bin/www",
+    "start": "node ./bin/www",
     "debug": "node --inspect ./bin/www",
     "watch": "nodemon --watch app.js --watch routes ./bin/www",
-    "test": "mocha test/**/*.js --timeout 100000"
+    "test": "mocha test/**/*.js --timeout 100000",
+    "prod": "node ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.17.1",

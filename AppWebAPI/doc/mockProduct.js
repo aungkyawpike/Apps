@@ -1,3 +1,5 @@
+//load("/mongodb/db/scripts/file2.js")
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -60,13 +62,13 @@ function generateUID() {
 }
 
 function getFormattedPrice(priceIn) {
-    var price = "00000000000" + priceIn;
-    return price.substr(price.length - 11);
+    var price = "00000000000000" + priceIn;
+    return price.substr(price.length - 14);
 }
 
 function getFormattedCategory(categoryIn) {
-    var category = "00000000000" + categoryIn;
-    return category.substr(category.length - 11);
+    var category = "0000" + categoryIn;
+    return category.substr(category.length - 4);
 }
 
 function getBase64String() {
@@ -113,19 +115,19 @@ function createProduct() {
         "title": getRandomTitle(),
         "description": getRandomDescription(),
         "offerType": getRandomInt(1, 2),
-        "price": getRandomInt(0, 10000),
+        "price": getRandomInt(0, 1000),
         "userId": user._id,
         "userName": user.name,
-        "coverImage": getBase64String(),
+        "previewImage": getBase64String(),
         "images": [generateUID(), generateUID()],
         "platform": "product",
         "country": "Myanmar",
-        "createdDate": randomDate(new Date(2012, 0, 1), new Date())
+        "createdDate": randomDate(new Date(2015, 0, 1), new Date())
     };
     
-    //product.categoryPriceId = getFormattedCategory(product.category) + '#' + getFormattedPrice(product.price) + '#' + product._id;
-   //product.categoryPriceId = interleaveStrings(getFormattedCategory(product.category), getFormattedPrice(product.price)) +  '#' + product._id;
-    //product.categoryDateId = getFormattedCategory(product.category) + '#' + product.createdDate.getTime() + '#' + product._id;
+    product.conditionCategoryYearPriceId = product.condition +  '#' + getFormattedCategory(product.category) + '#' + product.createdDate.getFullYear() + '#' + getFormattedPrice(product.price) + '#' + product._id;
+    product.conditionCategoryDateId = product.condition +  '#' + getFormattedCategory(product.category) + '#' + product.createdDate.getTime() + '#' +  product._id;
+    
     return product;
 }
 
@@ -143,24 +145,18 @@ function initializeDB(count) {
         bulkInsert();
     }
 
-    /*db.products.createIndex({
-        price: 1,
-        category: 1
-    });*/
+    //db.products.createIndex({
+    //    price: 1,
+    //    category: 1
+    //});   
     
-    db.products.createIndex({createdDate:1});
+    db.products.createIndex({
+        conditionCategoryYearPriceId: 1      
+    });
     
-    db.products.createIndex({categoryPriceId:1});
-    
-    /*db.products.createIndex({
-        categoryPriceId: 1,
-        category: 1
-    });*/
-    
-    /*db.products.createIndex({
-        categoryDateId: 1,
-        category: 1
-    });*/
+    db.products.createIndex({
+        conditionCategoryDateId: -1
+    });
 }
 
 print(createProduct());
